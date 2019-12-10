@@ -1,6 +1,8 @@
 import pandas as pd
 import json
 import os
+from Bio.Seq import Seq
+from Bio.Alphabet import IUPAC, Gapped
 
 
 class Patient:
@@ -49,6 +51,10 @@ class Patient:
             # заменяем неинформативную колонку на название региона
             region['name'] = name
 
+            region['translated'] = region.sequence.apply(lambda x: Seq(x,
+                                                                       Gapped(IUPAC.unambiguous_dna)
+                                                                       ).ungap().translate())
+
             # удаляем ненужную
             region.drop(['description'], axis=1, inplace=True)
             regions = pd.concat([regions, region], ignore_index=True)
@@ -90,6 +96,7 @@ class Reference:
 
                 # переименовываем для единообразия
                 t.rename(mapper={'region_seq': 'sequence', 'seq': 'full_reference'}, axis=1, inplace=True)
+                t['translated'] = t.sequence.apply(lambda x: Seq(x, Gapped(IUPAC.unambiguous_dna)).ungap().translate())
                 self.reference_df = pd.concat([self.reference_df, t], ignore_index=True)
 
         # если это делалось для одного пациента, то сразу отдаём объект с его регионами
