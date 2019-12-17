@@ -31,7 +31,7 @@ class Loader:
             for region in self.regions:
                 url = api.format(patient, region)
 
-                filename = f'{folder}/hivevo_{patient}_{region}.fasta'
+                filename = f'{folder}/hivevo_{patient}_{region}.json'
 
                 # сохраняем их
                 with self.http.request('GET', url, preload_content=False) as res, open(filename, 'wb') as out_file:
@@ -54,6 +54,6 @@ class Loader:
         # для каждого пациента запрашиваем данные и сохраняем
         for patient in self.patients:
             url = api.format(patient)
-            filename = f'{folder}/hivevo_reference_{patient}.fasta'
+            filename = f'{folder}/hivevo_reference_{patient}.json'
             with self.http.request('GET', url, preload_content=False) as res, open(filename, 'wb') as out_file:
                 shutil.copyfileobj(res, out_file)
