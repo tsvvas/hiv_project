@@ -76,3 +76,28 @@ def score_hydrophobicity_sequence(sequence, scale="Kyte-Doolittle", norm=False):
     else:
         return aa_hydrophobicity.loc[list(sequence), scale].sum()
 
+
+def build_epitopes(seq, length):
+    """
+    Function returns possible epitopes of length. If remaining length of the seq is to short it will form one last
+    epitope
+
+    Args:
+        seq (tuple): translated seq
+        length (int): maximum length of one epitope
+
+    Returns:
+        list: all epitopes made from seq
+    """
+    epitopes = []
+    i = 0
+
+    # while we can slice the seq
+    while i <= len(seq):
+
+        # making new epitope and removing stop symbols
+        ep = ''.join(seq[i:i + length]).replace('*', '')
+        epitopes.append(ep)
+        i += length
+    return epitopes
+
