@@ -15,3 +15,7 @@ data/
 
 # System metadata
 .DS_Store
+graphs.png
+graphs_hydro.png
+saved_sklearn_models/forest.joblib
+saved_sklearn_models/forest.rar
