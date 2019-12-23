@@ -4,6 +4,17 @@ In this project we investigate the molecular evolution of HIV in time. The longi
 
 ## Prerequisites
 > Biopython
+> tqdm
+> sklearn
+> numpy
+> os
+> joblib (to try given classificator)
+> json
+> re
+> TBD
+
+## Warnings:
+1) 2-mer Classificator data preparation and train last very long, so be careful with this
 
 ## Authors
 
