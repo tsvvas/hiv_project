@@ -2,21 +2,26 @@ import pandas as pd
 import os
 from os.path import isfile, join
 from joblib import dump
+from sklearn.model_selection import train_test_split
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.metrics import classification_report
+
 
 # reading all files we have
 
-def creating_RF_classificator(n_estimators=300, max_depth=15, bootstrap='True', max_features='sqrt', n_jobs=-1):
+def preprocessing_data():
     """
-        Making Random Forest classificator and storing it at 'saved_sklean_models' dir
-        If you want to change classificator parameters, please see scikit-learn documentation
+    Reading all csv_files from 'csv_data' dir
+
     Args:
-        n_estimators: int, default = 300
-        max_depth: int, default = 15
-        bootstrap: str, default = 'True'
-        max_features: str, default = 'sqrt'
-        n_jobs: int, default = -1
+        None
 
     Returns:
+        feature_matrix: array, array with features needed to train classificator
+        labels_categorized: array, array with labels for objects
+
+    !!!WARNING!!! labels_categorized and feature_matrix are connected, first row in feature_matrix ~> first
+    elem in labels categorized
 
     """
     # reading files from csv_data folder
@@ -29,20 +34,37 @@ def creating_RF_classificator(n_estimators=300, max_depth=15, bootstrap='True', 
 
     # reading rest of the files
     for x in csv_files:
-        res_data = pd.read_csv(x,  index_col=0)
+        res_data = pd.read_csv(x, index_col=0)
         Proteins_data = pd.concat([Proteins_data, res_data], ignore_index=True)
-
 
     # Be careful with your data
 
     labels_categorized = Proteins_data[Proteins_data.columns[0]].values
-    feature_matrix = Proteins_data[Proteins_data.columns[2:403]].values
+    feature_matrix = Proteins_data[Proteins_data.columns[2:]].values
     del Proteins_data
 
+    return feature_matrix, labels_categorized
 
+
+def making_classificator(feature_matrix, labels_categorized, n_estimators, max_depth, bootstrap, max_features, n_jobs):
     # Making labels not categorized (slightly)
+    """
+        Making Random Forest classificator and storing it at 'saved_sklean_models' dir
+        If you want to change classificator parameters, please see scikit-learn documentation
+
+    Args:
+        feature_matrix: array, array with features needed to train classificator
+        n_estimators: int, default = 300
+        max_depth: int, default = 15
+        bootstrap: str, default = 'True'
+        max_features: str, default = 'sqrt'
+        n_jobs: int, default = -1
+    """
 
     labels = []
+
+    if 'human_proteome' not in labels_categorized:
+        raise ValueError('human_proteome is not in labels_categorized, be careful')
 
     for x in labels_categorized:
         if x == 'human_proteome':
@@ -50,19 +72,10 @@ def creating_RF_classificator(n_estimators=300, max_depth=15, bootstrap='True', 
         else:
             labels.append(0)
 
-
-    # Importing SKlearn magic
-
-    from sklearn.model_selection import train_test_split
-    from sklearn.metrics import f1_score, accuracy_score
-    from sklearn import preprocessing
-    from sklearn.ensemble import RandomForestClassifier
-    from sklearn.metrics import classification_report
-
     # Making 2 Train-Test split
 
-    train_feature_matrix, test_feature_matrix,\
-    train_labels, test_labels = train_test_split(feature_matrix, labels, test_size=0.2, random_state=42)
+    train_feature_matrix, test_feature_matrix, \
+    train_labels, test_labels = train_test_split(feature_matrix, labels, test_size=0.15, random_state=42)
 
     # Fitting our classificator
 
