@@ -204,6 +204,9 @@ def main_analyzes(path, k_mer_num):
 
 
 if __name__ == 'main':
+    if not os.path.isdir('../data/proteomes'):
+        raise FileExistsError('Have you download all needed represantative proteomes (or added yours maybe) and stored'
+                              + 'them in "data/proteomes" folder?')
     data_files = [f for f in os.listdir('../data/proteomes') if os.path.isfile(os.path.join('../data/proteomes', f))]
     files_path = []
     for i in range(len(data_files)):
