@@ -1,9 +1,10 @@
+# TODO: this script needs to be replaced by the one from master. All references in your code should be changed to Loader
+
 import shutil
 import os
 import urllib3
 import certifi
 from Bio import SeqIO
-import Bio
 import json
 from Bio.SeqRecord import SeqRecord
 from Bio.Seq import Seq
