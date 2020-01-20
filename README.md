@@ -41,7 +41,7 @@ Pull requests are welcome. For major changes, please open an issue first to disc
 Please make sure to update tests as appropriate.
 
 ## Acknowledgments
-
+We want to show our apprecition to:
 - Fabio Zanini and Co. for making helpful interesting [paper](https://elifesciences.org/articles/11282) and giving free access to their [database](https://hiv.biozentrum.unibas.ch)
 - [Bioinformatics Institute](https://bioinf.me/en) for additional help in creating our team and other stuff
 
