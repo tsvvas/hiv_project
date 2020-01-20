@@ -11,7 +11,7 @@ For qualitive... (there is part about hydrophobicity and Alexandra's methods; ne
 All gathered results are stored in jupyter notebooks. Folder scripts contain code for creating phylogenetic trees, classificators, data preparations and etc.
 
 ## Prerequisites
-> jupyter notebook 
+> jupyter notebook   
 > Biopython  
 > joblib  
 > itertools  
