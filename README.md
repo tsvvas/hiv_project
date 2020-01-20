@@ -27,10 +27,14 @@ All gathered results are stored in jupyter notebooks. Folder scripts contain cod
 > shutil  
 > os
 
+## Getting started
+
+To start one should clone this repository.
+
 
 ## Usage
 
-TODO
+Examples of how to use functions can be found in jupyter notebooks.
 
 ## Roadmap
 
