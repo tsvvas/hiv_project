@@ -43,6 +43,10 @@ Please make sure to update tests as appropriate.
 ## License
 [MIT](https://choosealicense.com/licenses/mit/)
 
+## Support
+
+For the sake of saving time or in case of emergency, you can connect with us via [telegram](https://telegram.org/) @belsawan
+
 ## Authors
 
 - Vasily Tsvetkov
