@@ -3,6 +3,10 @@ import urllib3
 import certifi
 import os
 
+# HIV regions and patients lists
+
+patients = ["p{}".format(i) for i in range(1, 12)]
+hiv_regions = ["V3", "PR", "psi", "vpr", "vpu", "p1", "p2", "p6", "p7", "p15", "p17", "RRE"]
 
 class Loader:
     """ Класс для загрузки данных """
@@ -15,7 +19,6 @@ class Loader:
     def load_haplotypes(self, folder='data/hivevo'):
         """
         Загрузка гаплотипов
-
         Args:
             folder (str): путь, куда будет произведена загрузка
         """
@@ -40,7 +43,6 @@ class Loader:
     def load_reference(self, folder='data/hivevo'):
         """
         Загрузка референсов
-
         Args:
             folder (str): путь, куда будет произведена загрузка
         """

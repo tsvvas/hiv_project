@@ -1,96 +1,61 @@
-# TODO: this script needs to be replaced by the one from master. All references in your code should be changed to Loader
-
 import shutil
 import os
 import urllib3
 import certifi
 from Bio import SeqIO
+import Bio
 import json
 from Bio.SeqRecord import SeqRecord
 from Bio.Seq import Seq
 import re
 
-# HIV properties
+# HIV regions and patients lists
 
 patients = ["p{}".format(i) for i in range(1, 12)]
 hiv_regions = ["V3", "PR", "psi", "vpr", "vpu", "p1", "p2", "p6", "p7", "p15", "p17", "RRE"]
 
-
-def download_hivevo_haplotype(patient, hiv_region, folder):
+def read_fasta(path):
     """
-    Making folder for data and downloading from https://hiv.biozentrum.unibas.ch alignment for patient for exact region
+    Reading fasta file using Biopython
 
     Args:
-        patient: string (name of patient)
-        hiv_region: string (name of region)
-        folder: path (name of folder to which download)
+        path: path to file to read
 
+    Returns:
+        record_list: list, list (whole organism) of lists (for each protein) of SeqRecords
+        org_name: str, name of particular organism
     """
+    # reading proteins
+    fasta_test_file = SeqIO.parse(path, 'fasta')
+    record_list = list(fasta_test_file)
 
-    if patient not in patients:
-        raise Exception('Wrong name of patient, you can see patients at https://hiv.biozentrum.unibas.ch')
+    # making org_name
+    org_name = path.replace('../data/proteomes/', '').replace('.fasta', '')
 
-    if hiv_region not in hiv_regions:
-        raise Exception('Wrong region, you can see all regions at https://hiv.biozentrum.unibas.ch')
-
-    http = urllib3.PoolManager(cert_reqs='CERT_REQUIRED',
-                               ca_certs=certifi.where())
-
-    api = "https://hiv.biozentrum.unibas.ch/api/data/haplotypes/"
-
-    url = "/".join((api, patient, hiv_region))
-
-    if not os.path.isdir(folder):
-        os.mkdir(folder)
-
-    file_name = folder + "_".join(("hivevo", patient, hiv_region)) + ".fasta"
-
-    with http.request('GET', url, preload_content=False) as res, open(file_name, 'wb') as out_file:
-        shutil.copyfileobj(res, out_file)
-
-
-def download_hivevo_references(folder):
-    """
-    Downloading references for all patients
-
-    Args:
-        folder: str, path to folder to download
-    """
-    global patients
-
-    http = urllib3.PoolManager(cert_reqs='CERT_REQUIRED',
-                               ca_certs=certifi.where())
-
-    if not os.path.isdir(folder):
-        os.mkdir(folder)
-
-    for patient in patients:
-        api = "https://hiv.biozentrum.unibas.ch/api/data/referenceSequence"
-        url = "/".join((api, patient))
-        file_name = folder + "_".join(("hivevo", "reference", patient)) + ".fasta"
-
-        with http.request('GET', url, preload_content=False) as res, open(file_name, 'wb') as out_file:
-            shutil.copyfileobj(res, out_file)
-
+    return record_list, org_name
 
 def extracting_region_from_reference(region, reference_path, folder):
     """
-
+    Function to extract specified region from exact reference
+    Create fasta file with sequence for needed region
     Args:
         region: str, name of the region
         reference_path: str, path to reference file
         folder: str, path to folder to store
 
     Returns:
-
+        None
     """
 
+    # checking region
     if region not in hiv_regions:
         raise Exception('Wrong region, you can see all regions at https://hiv.biozentrum.unibas.ch')
 
+    # making dir for exact region we will store all region references for all possible patients here
     if not os.path.isdir(folder + region):
         os.mkdir(folder + region)
 
+    # opening reference and finding location
     with open(reference_path) as f:
         reference_info = json.load(f)
     for reg in reference_info['features']:
@@ -99,12 +64,17 @@ def extracting_region_from_reference(region, reference_path, folder):
             break
         else:
             continue
+
+    # finding out what patient we are working with
     patient = re.search(r"p[\d]*", reference_path)[0]
-    # print(patient)
+
+    # finally finding out needed sequence
     sequence = reference_info['seq'][loc[0]:loc[1]]
-    # print(sequence)
+
+    # res stuff to create name for our file
     res = r'/' + re.search(r'[\w]*\.fasta', reference_path)[0].replace(patient, "_".join((patient, region)))
 
+    # writing sequence and info into fasta file
     with open(folder + region + res, 'w') as fasta_file:
         line_1 = reference_info['description'].replace('genomewide', 'region=' + region).lstrip()
         # print(line_1)
@@ -121,13 +91,19 @@ def json2fasta(folder, path_json):
         folder: str, path to folder to save
         path_json: str, path to json file
 
+    Returns:
+        None
     """
+
+    # making folder for fasta files
     if not os.path.isdir(folder + 'fasta'):
         os.mkdir(folder + 'fasta')
 
+    # loading file
     with open(path_json) as f:
         json_file = json.load(f)
 
+    # using Biopython to write loaded stuff from json to fasta
     path = path_json.replace('data/', 'data/fasta/')
     with open(path, "w") as fasta_file:  # Iterating for objects in json
         for obj in json_file:
@@ -148,12 +124,13 @@ def add_ref_reg2fasta(path_fasta, path_ref_region):
         Adding exact region from reference file to fasta with haplotypes
     """
 
+    # writing reference of region in fasta with haplotypes
     with open(path_fasta, 'a') as fasta_file, open(path_ref_region) as ref_fasta:
         record = next(SeqIO.parse(ref_fasta, 'fasta'))
         SeqIO.write(record, fasta_file, 'fasta')
 
 
-def read_fasta(path):
+def read_fasta_haplo(path):
     """
     Read fasta
     Args:
@@ -164,26 +141,33 @@ def read_fasta(path):
             dict in list of dicts have 'desc' and 'seq' keys
             list of days contain all days of HIV seq we know for exact patient
     """
+
+    # creating lists
     haplo_seq_dict = []
     days = []
-    patt = r'_[\d]*_'  # for days
-    records = []
-    with open(path) as fasta_file:  # Reading
-        for record in SeqIO.parse(fasta_file, 'fasta'):
-            records.append(record)
 
+    # patt for finding out days using re
+    patt = r'_[\d]*_'  # for days
+
+    # reading fasta
+    records, org = read_fasta(path)
+
+    # analyzing every record and getting all needed info from it
     haplo_seq_dict = []
     for record in records:
         haplo_seq_dict.append({})
+
+        # if for reference because reference desc have no days pattern in it
         if 'reference' in record.description:
             haplo_seq_dict[-1]['seq'] = str(record.seq)
             haplo_seq_dict[-1]['desc'] = 'reference'
-        # print('1')
+
         if 'reference' not in record.description:  # Making days, lst
             days.append((re.search(patt, record.description).group(0).replace('_', '')))
             haplo_seq_dict[-1]['seq'] = str(record.seq)
             haplo_seq_dict[-1]['desc'] = record.description.lstrip()
 
+    # completing days list
     days = list(set(days))
     days = sort_lst(days)
 
