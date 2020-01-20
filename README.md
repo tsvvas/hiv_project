@@ -6,7 +6,7 @@ In our project we will analyze evolution paths of HIV for each patient. For find
 
 For quantitative analyzes we have used along with HIV data represantative proteomes for human, bacteries and  viruses to train k-mer (2-mer) classifier (human gene and anti-human gene) using machine learning method Random Forest.  
 
-For qualitive... 
+For qualitive... (there is part about hydrophobicity and Alexandra's methods; need some help here)
 
 All gathered results are stored in jupyter notebooks. Folder scripts contain code for creating phylogenetic trees, classificators, data preparations and etc.
 
