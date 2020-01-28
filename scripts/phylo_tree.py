@@ -7,13 +7,6 @@ from Bio import SeqIO
 import Bio
 from glob import glob
 import json
-from IPython import display
-import pandas as pd
-import numpy as np
-from collections import OrderedDict
-
-import matplotlib.pyplot as plt
-import seaborn as sns
 import re
 
 from Bio import Align
