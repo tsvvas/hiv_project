@@ -1,5 +1,4 @@
 <a href="http://google.com"><img src="https://static.tildacdn.com/tild6464-3064-4237-a433-383539613333/bi_logo.png" title="HIV" alt="HIV"></a>
-[![DudeItsCool](https://static.tildacdn.com/tild6464-3064-4237-a433-383539613333/bi_logo.png)](http://google.com)
 
 # HIV evolution
 
