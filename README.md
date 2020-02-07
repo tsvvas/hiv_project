@@ -91,12 +91,18 @@ In qualitative analysis translated sequences were used to calculate hydrophobici
 ## Results
 
 Our main hypothesis is valid only for a part of the patients studied. For another part our model shows inconsistent results. We need more data to extensively validate the hypothesis or to eventually dismiss it. Also models in our pipeline should be improved to be more precise and sensitive.  
-Example of the graphics you can make with our code:
 ![2_mer_illu](https://github.com/tsvvas/hiv_project/raw/dev_andrew_classification/results/frequency_2_mer_plot/2_mer_plot.png)
 
 ## Usage
 
-Examples of how to use functions can be found in jupyter notebooks.
+Examples of how to use functions can be found in jupyter notebooks.  
+With our code you can make:  
+
+* single-patient phylogenetic trees with the structure like on the picture:  
+![tree_illu](https://github.com/tsvvas/hiv_project/raw/dev_andrew_classification/results/examples/tree_example.png)
+* download data from [this database](https://hiv.biozentrum.unibas.ch/)  
+* train Random Forest on represantative proteomes (but proteomes you should download by yourself with the use of get_bact_fasta.sh from scripts)  
+* use our explained pipeline  
 
 ## Roadmap
 
