@@ -1,17 +1,22 @@
-<a href="http://google.com"><img src="https://sun9-12.userapi.com/c543105/v543105897/770d0/gvBNd_K2dDA.jpg" title="HIV" alt="HIV"></a>
-<!-- [![DudeItsCool](https://sun9-12.userapi.com/c543105/v543105897/770d0/gvBNd_K2dDA.jpg)](http://google.com) -->
+<a href="http://google.com"><img src="https://static.tildacdn.com/tild6464-3064-4237-a433-383539613333/bi_logo.png" title="HIV" alt="HIV"></a>
+<!-- [![DudeItsCool](https://static.tildacdn.com/tild6464-3064-4237-a433-383539613333/bi_logo.png)](http://google.com) -->
 
 # HIV evolution
 
-In this project we investigate the molecular evolution of HIV in time. The longitudinal sequence data from HIV patients are obtained from [this database](https://hiv.biozentrum.unibas.ch). One should also consider to read [this paper](https://elifesciences.org/articles/11282) for additional info about HIV patients and how data was collected.
+## Introduction:
+HIV is still one of the remaining hard nuts to crack in XXI's century and it's epidemy is one of largest in the world. That's why dealing with this virus is important task. HIV has several mechanisms for escaping from human's immunity. One of them is high mutation rate. In this project we are to investigate the molecular evolution of HIV in time. For one group of patients we have found significant dependencies between their probability to escape and time. However, that result wasn't shown for all patient we have taken. All in all our approach shows unstable correlations, but work is in progress.
 
-In our project we will analyze evolution paths of HIV for each patient. For finding out paths phylogenetic trees were created. Main analyzes include using quantitative and qualitative (hydrophobicity) composition of aminoacids from translated HIV sequences. 
+## Data:
+(here i think we should show our data, with all links to it; also representative proteomes should be here i guess)
 
-For quantitative analyzes we have used along with HIV data represantative proteomes for human, bacteries and  viruses to train k-mer (2-mer) classifier (human gene and anti-human gene) using machine learning method Random Forest.  
+## Problem:
+HIV's high mutation rate is aimed to accommodate virus for exact human's immunity in order to escape it. But connection between escaping and HIV's genome, which is changing in time due to mutations, is still unknown. Also why HIV chose exact evolution paths in exact human remains unrevealed. Solving this problem will help to predict how HIV can change in particular body, also it can help in creating stable vaccine for HIV.
 
-For qualitive... (there is part about hydrophobicity and Alexandra's methods; need some help here)
-
-All gathered results are stored in jupyter notebooks. Folder scripts contain code for creating phylogenetic trees, classificators, data preparations and etc.
+## Solution:
+In our work we've used proteins-based methods to analyze HIV's evolution.
+First of all for each patient we've made evolution paths of HIV. For that reason single-patient phylogenetic trees for chosen region using pairwise alignments were created. Paths in those trees (from latest date to reference) were taken as HIV's evolution paths. Main analyzes include translating sequences from paths and then applying on them quantitative and qualitative analyzing methods.
+In quantitative analyzes we've found frequencies of all possible aminoacid k-mers (2-mers in our work). To investigate HIV's accommodation for patient we've used representative proteomes for human, some bacteria and viruses to train classifier (human gene and anti-human gene) using machine learning approaches.
+In qualitative method translated sequences were used to calculate hydrophobicity metrics according to Kyle-Doolittle table and then another machine learning algorithms were used. (there is part about hydrophobicity and Alexandra's methods; need some help here)
 
 ## Prerequisites
 > jupyter notebook   
