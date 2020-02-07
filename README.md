@@ -92,7 +92,7 @@ In qualitative analysis translated sequences were used to calculate hydrophobici
 
 Our main hypothesis is valid only for a part of the patients studied. For another part our model shows inconsistent results. We need more data to extensively validate the hypothesis or to eventually dismiss it. Also models in our pipeline should be improved to be more precise and sensitive.  
 Example of the graphics you can make with our code:
-[![DudeItsCool12](https://github.com/tsvvas/hiv_project/raw/dev_andrew_classification/results/frequency_2_mer_plot/2_mer_plot.png)]
+![2_mer_illu](https://github.com/tsvvas/hiv_project/raw/dev_andrew_classification/results/frequency_2_mer_plot/2_mer_plot.png)
 
 ## Usage
 
