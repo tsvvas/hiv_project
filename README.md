@@ -12,8 +12,10 @@ Human immunodeficiency virus (HIV) is a retrovirus that infects human cells, esp
 ## Problem:
 HIV's high mutation rate is aimed to accommodate virus for exact human's immunity in order to escape it. HIV population typically mutates in the first few months after infection. The mutations are thoroughly studied and documented, but little focus was placed on the protein level. It is known that these mutations are preferentially found in known CTL epitopes, but whether these mutations are directed toward self or not remains a question. Solving this problem will help to predict how HIV can change in particular body, also it can help in creating vaccine for HIV.
 
+## Main hypothesis:
+Main hypothesis of our project is that HIV mutates in direction toward its host to escape recognition. Although it's known that HIV's mutations occures in order to escape immune answer but we assume that this mutations is also providing similarity to human proteins.  
+
 ## Solution:
-Main hypothesis of our project is that HIV mutates in direction toward its host to escape recognition.  
 In order to validate the hypothesis we are going to measure the probability of HIV's peptide sequences to be similar to host (i.e. human). We derive the probability from the machine learning models trained to discriminate between human and pathogen peptide sequences.
 
 ## Methods:
@@ -40,6 +42,8 @@ It's recommended to use computer with at least 2 GB RAM and 2,00 GHz CPU, especi
 
 Our main hypothesis is valid only for a part of the patients studied. For another part our model shows inconsistent results. We need more data to extensively validate the hypothesis or to eventually dismiss it. Also models in our pipeline should be improved to be more precise and sensitive.  
 ![2_mer_illu](https://github.com/tsvvas/hiv_project/raw/dev_andrew_classification/results/frequency_2_mer_plot/2_mer_plot.png)
+
+Also 
 
 ## Usage
 
