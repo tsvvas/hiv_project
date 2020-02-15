@@ -10,7 +10,7 @@ Human immunodeficiency virus (HIV) is a retrovirus that infects human cells, esp
 * Represantative proteomes were taken from  https://www.uniprot.org/
 
 ## Problem:
-HIV's high mutation rate is aimed to accommodate virus for exact human's immunity in order to escape it. HIV population typically mutates in the first few months after infection. The mutations are thoroughly studied and documented, but little focus was placed on the protein level. It is known that these mutations are preferentially found in known CTL epitopes, but whether these mutations are directed toward self or not remains a question. Solving this problem will help to predict how HIV can change in particular body, also it can help in creating vaccine for HIV.
+HIV's high mutation rate is aimed to accommodate virus for exact human's immunity in order to escape it. HIV population typically mutates in the first few months after infection. The mutations are thoroughly studied and documented, but little focus was placed on the protein level. It is known that these mutations are preferentially found in CTL epitopes, but whether these mutations are directed toward self or not remains a question. Solving this problem will help to predict how HIV can change in particular body, also it can help in creating vaccine for HIV.
 
 ## Main hypothesis:
 Main hypothesis of our project is that HIV mutates in direction toward its host to escape recognition. Although it's known that HIV's mutations occures in order to escape immune answer but we assume that this mutations is also providing similarity to human proteins.  
