@@ -1,3 +1,4 @@
+# coding=utf-8
 import shutil
 import os
 import urllib3
@@ -9,10 +10,13 @@ from Bio.SeqRecord import SeqRecord
 from Bio.Seq import Seq
 import re
 
-# HIV regions and patients lists
 
+
+# HIV regions and patients lists
 patients = ["p{}".format(i) for i in range(1, 12)]
 hiv_regions = ["V3", "PR", "psi", "vpr", "vpu", "p1", "p2", "p6", "p7", "p15", "p17", "RRE"]
+
+
 
 def read_fasta(path):
     """
@@ -33,6 +37,8 @@ def read_fasta(path):
     org_name = path.replace('../data/proteomes/', '').replace('.fasta', '')
 
     return record_list, org_name
+
+
 
 def extracting_region_from_reference(region, reference_path, folder):
     """
@@ -77,10 +83,10 @@ def extracting_region_from_reference(region, reference_path, folder):
     # writing sequence and info into fasta file
     with open(folder + region + res, 'w') as fasta_file:
         line_1 = reference_info['description'].replace('genomewide', 'region=' + region).lstrip()
-        # print(line_1)
         line_2 = sequence
         seq = SeqRecord(Seq(line_2), id='', description=line_1)
         SeqIO.write(seq, fasta_file, 'fasta')
+
 
 
 def json2fasta(folder, path_json):

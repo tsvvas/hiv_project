@@ -1,18 +1,10 @@
-import shutil
-import os
-from joblib import dump, load
-import urllib3
-import certifi
-from Bio import SeqIO
-import Bio
-from glob import glob
-import json
-import re
-
 from Bio import Align
 
 class Node:
     def __init__(self, parent=None, kids=[], name=None, seq=None, level=None):
+        """
+
+        """
         self.parent = parent  # node type
         self.kids = kids
         self.name = name
@@ -37,11 +29,9 @@ class Node:
             if score > score_max:
                 self.parent = node
                 score_max = score
-            else:
-                continue
         self.parent.kids.append(self)
 
-    def _make_path(self):
+    def make_path(self):
         '''
         Making path from final level to reference
         '''
@@ -52,10 +42,13 @@ class Node:
             return self.name + ' ' + self.parent._make_path()
 
     def path(self):
-        '''
+        """
         Making _make_path more useful
-        '''
-        return self._make_path().split()[::-1]
+
+        Return:
+            list, list of all possible paths in this tree
+        """
+        return self.make_path().split()[::-1]
 
 
 class Phylo_tree:

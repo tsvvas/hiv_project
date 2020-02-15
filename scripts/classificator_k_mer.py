@@ -7,53 +7,62 @@ from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import classification_report
 
 
-# reading all files we have
-
 def preprocessing_data():
     """
     Reading all csv_files from 'csv_data' dir
 
-    Args:
-        None
-
     Returns:
         feature_matrix: array, array with features needed to train classificator
         labels_categorized: array, array with labels for objects
-
-    !!!WARNING!!! labels_categorized and feature_matrix are connected, first row in feature_matrix ~> first
-    elem in labels categorized
-
     """
-    # reading files from csv_data folder
+    # reading files' paths from csv_data folder
     csv_files = [f for f in os.listdir('csv_data') if isfile(join('csv_data', f))]
+
+    # changing paths
     for i in range(len(csv_files)):
-        csv_files[i] = 'csv_data/' + csv_files[i]
+        csv_files[i] = 'csv_data/{csv_files[i]}'
 
     # making dataframe
-    Proteins_data = pd.DataFrame()
+    proteins_data = pd.DataFrame()
 
     # reading rest of the files
-    for x in csv_files:
-        res_data = pd.read_csv(x, index_col=0)
-        Proteins_data = pd.concat([Proteins_data, res_data], ignore_index=True)
+    for file in csv_files:
+        res_data = pd.read_csv(file, index_col=0)
 
-    # Be careful with your data
-
-    labels_categorized = Proteins_data[Proteins_data.columns[0]].values
-    feature_matrix = Proteins_data[Proteins_data.columns[2:]].values
-    del Proteins_data
-
-    return feature_matrix, labels_categorized
+        # adding data into dataframe
+        proteins_data = pd.concat([proteins_data, res_data], ignore_index=True)
 
 
-def making_classificator(feature_matrix, labels_categorized, n_estimators, max_depth, bootstrap, max_features, n_jobs):
-    # Making labels not categorized (slightly)
+    # Getting labels and feature_matrix from Proteins data
+    labels_categorized = proteins_data[proteins_data.columns[0]].values
+    feature_matrix = proteins_data[proteins_data.columns[2:]].values
+
+    # Initializing labels
+    labels = []
+
+    if 'human_proteome' not in labels_categorized:
+        raise ValueError('human_proteome is not in labels_categorized, be careful')
+
+    # categorizing labels
+    for x in labels_categorized:
+        if x == 'human_proteome':
+            labels.append(1)
+        else:
+            labels.append(0)
+
+    return feature_matrix, labels
+
+
+def making_classificator(feature_matrix, labels, n_estimators=300, max_depth=15, bootstrap='True',
+                         max_features='sqrt', n_jobs=-1):
     """
         Making Random Forest classificator and storing it at 'saved_sklean_models' dir
         If you want to change classificator parameters, please see scikit-learn documentation
+        Note: class of human proteins is 1, class of others' proteins is 0
 
     Args:
         feature_matrix: array, array with features needed to train classificator
+        labels: array, array with labels connected to feature_matrix to train classificator
         n_estimators: int, default = 300
         max_depth: int, default = 15
         bootstrap: str, default = 'True'
@@ -61,40 +70,28 @@ def making_classificator(feature_matrix, labels_categorized, n_estimators, max_d
         n_jobs: int, default = -1
     """
 
-    labels = []
-
-    if 'human_proteome' not in labels_categorized:
-        raise ValueError('human_proteome is not in labels_categorized, be careful')
-
-    # categorizing labels
-
-    for x in labels_categorized:
-        if x == 'human_proteome':
-            labels.append(1)
-        else:
-            labels.append(0)
-
     # Making 2 Train-Test split
-
     train_feature_matrix, test_feature_matrix, \
     train_labels, test_labels = train_test_split(feature_matrix, labels, test_size=0.15, random_state=42)
 
     # Fitting our classificator
-
     forest = RandomForestClassifier(n_estimators=n_estimators, max_depth=max_depth, bootstrap=bootstrap,
                                     max_features=max_features, n_jobs=n_jobs)
     forest.fit(train_feature_matrix, train_labels)
 
     # showing score for user
-
     y_pred = forest.predict(test_feature_matrix)
     print(classification_report(test_labels, y_pred, labels=[0, 1]))
 
     # saving classificator in 'saved_sklearn_models' folder
     print(r'Saving classificator in ../saved_sklearn_models folder')
 
+    # making dir
     if not os.path.isdir('saved_sklearn_models'):
         os.mkdir('saved_sklearn_models')
+        print('saved_sklearn_models directory is created')
 
+    # saving model
     dump(forest, '../saved_sklearn_models/random_forest.joblib')
-    del forest
+
+    return

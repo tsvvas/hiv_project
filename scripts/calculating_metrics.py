@@ -2,8 +2,9 @@ from patients_and_translation import translate_dna
 from Bio import Align
 import pandas as pd
 
-# Dealing with hydrophobicity.csv
 
+
+# Dealing with hydrophobicity.csv
 hydro_df = pd.read_csv('utils/hydrophobicity.csv', index_col = None)
 hydro_fact = dict(zip(list(hydro_df['aa']),list(hydro_df['Kyte-Doolittle'])))
 hydro_fact['X'] = 0 # !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!11  added
@@ -22,22 +23,15 @@ def calculating_snp(seq1, seq2):
     Return:
         snp: int, num of SNPs
     """
+
+    # creating aligner
     aligner = Align.PairwiseAligner()
+
+    # calculating score
     score = aligner.score(seq1, seq2)
 
+    # finding out num of SNPs
     snp = len(seq1) - score
-
-    '''n = len(seq1)
-    m = len(seq2)
-    if m > n:
-        n, m = m, n
-        seq1, seq2 = seq2, seq1
-    seq2 += ' '*(n-m)
-
-    snp = 0
-    for i in range(len(seq1)):
-        if seq1[i] != seq2[i]:
-            snp += 1'''
 
     return snp
 
@@ -48,13 +42,17 @@ def calculate_metric(seq):
     Args:
         seq: string, sequnce to translate
     Return:
-        res: float, metric result
+        float, metric result
     """
+
+    # translating protein
     prot = translate_dna(seq, gap='-')
 
+    # calculating metrics
     res = 0
-
     for aa in prot:
+
+        # adding to res hydrophobicity of exact amino acid acording to hydro_fact
         res += hydro_fact[aa]
 
     return res
