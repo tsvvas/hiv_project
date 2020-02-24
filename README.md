@@ -7,7 +7,8 @@ Human immunodeficiency virus (**HIV**) is a retrovirus that infects human cells,
 
 ## Data:
 * Longitudinal HIV sequencing data was taken from https://hiv.biozentrum.unibas.ch/  
-* Represantative proteomes were taken from  https://www.uniprot.org/, https://www.ebi.ac.uk/ena. You can download all represantative proteomes used in our project via https://drive.google.com/open?id=1Ghbuc4Tenl-fcvYZ6pyGLe-GHJ96jFjD (Be careful, download will start immediately).
+* Represantative proteomes were taken from  https://www.uniprot.org/, https://www.ebi.ac.uk/ena. 
+You can download all represantative proteomes used in our project via https://drive.google.com/open?id=1Ghbuc4Tenl-fcvYZ6pyGLe-GHJ96jFjD (Be careful, download will start immediately).
 
 ## Problem:
 HIV's high mutation rate is aimed to accommodate virus for exact human's immunity in order to escape it. HIV population typically mutates in the first few months after infection. The mutations are thoroughly studied and documented, but little focus was placed on the protein level. It is known that these mutations are preferentially found in CTL epitopes. But an interesting question is the fact whether these mutations are directed toward self, i.e., if they are aimed at becoming more like a host proteome, or not?
