@@ -45,10 +45,13 @@ Trees has tend to have one strict path until the last day of sequencing (or one 
 In quantitative pipeline 2-mer classificator was trained on represantative proteomes (see **Data** section). Classificators accuracy is about **84%** in division human (class 1) and non-human proteins (class 0). Classification report:
 
 <center>
+
 | Class | Precision | Recall | f1-score |
 | ------------- | ------------- | ------------- | ------------- |
 | 0 | 0.86 | 0.84 | 0.85 |
 | 1 | 0.83 | 0.85 | 0.84 |
+
+</center>
 
 Using quantitative pipeline on HIV's region **V3** we have proved main hypothesis to be valid only for a part of the patients studied: patient p1, patient p4 (approximately), patient p11 (approximately). For another patients our model shows inconsistent results.
 ![2_mer_illu](https://github.com/tsvvas/hiv_project/raw/dev_andrew_classification/results/frequency_2_mer_plot/2_mer_plot.png)
