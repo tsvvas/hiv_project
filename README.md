@@ -62,10 +62,10 @@ Examples of how to use functions can be found in jupyter notebooks.
 
 With our code you can make:  
 
-* single-patient phylogenetic tree
-* download data from [this database](https://hiv.biozentrum.unibas.ch/)  
-* train Random Forest on represantative proteomes (but proteomes you should download by yourself with the use of get_bact_fasta.sh from scripts)  
-* use our explained pipeline  
+* Download data from [this database](https://hiv.biozentrum.unibas.ch/)  
+* Single-patient phylogenetic tree  
+* Train Random Forest on represantative proteomes (but proteomes should be downloaded with the use of get_bact_fasta.sh from scripts)  
+* Use our explained pipelines  
 
 ## Roadmap
 
