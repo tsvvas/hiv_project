@@ -31,7 +31,7 @@ class Patient:
 
         # цикл по возможным регионам
         for name in ["V3", "PR", "psi", "vpr", "vpu", "p1", "p2", "p6", "p7", "p15", "p17", "RRE"]:
-            filename = f'hivevo_{self.id}_{name}.fasta'
+            filename = f'hivevo_{self.id}_{name}.json'
 
             with open(os.path.join(self.data_path, filename)) as f:
                 region_file = json.load(f)
