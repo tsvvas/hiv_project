@@ -3,11 +3,11 @@
 # HIV evolution
 
 ## Introduction:
-Human immunodeficiency virus (**HIV**) is a retrovirus that infects human cells, especially **CD4+ T-cells**. HIV infection is a dreadful disease that requires lifelong treatment. Although there have been developed several therapeutics that inhibit HIV replication, they are not curative. That's why dealing with this virus is important task. **HIV** has several mechanisms for escaping from human's immunity. One of them is high mutation rate. In this project we are to investigate the molecular evolution of **HIV** in time, changes in **HIV**'s proteins due to mutations and their connection with escape from immune system.
+Human immunodeficiency virus (**HIV**) is a retrovirus that infects human cells, especially CD4+ T-cells. HIV infection is a dreadful disease that requires lifelong treatment. Although there have been developed several therapeutics that inhibit HIV replication, they are not curative. That's why dealing with this virus is important task. HIV has several mechanisms for escaping from human's immunity. One of them is high mutation rate. In this project we are to investigate the molecular evolution of HIV in time, changes in HIV's proteins due to mutations and their connection with escape from immune system.
 
 ## Data:
-* Longitudinal **HIV** sequencing data was taken from https://hiv.biozentrum.unibas.ch/  
-* Represantative proteomes were taken from  https://www.uniprot.org/
+* Longitudinal HIV sequencing data was taken from https://hiv.biozentrum.unibas.ch/  
+* Represantative proteomes were taken from  https://www.uniprot.org/, https://www.ebi.ac.uk/ena. You can download all represantative proteomes used in our project via https://drive.google.com/open?id=1Ghbuc4Tenl-fcvYZ6pyGLe-GHJ96jFjD (Be careful, download will start immediately).
 
 ## Problem:
 HIV's high mutation rate is aimed to accommodate virus for exact human's immunity in order to escape it. HIV population typically mutates in the first few months after infection. The mutations are thoroughly studied and documented, but little focus was placed on the protein level. It is known that these mutations are preferentially found in CTL epitopes. But an interesting question is the fact whether these mutations are directed toward self, i.e., if they are aimed at becoming more like a host proteome, or not?
@@ -24,16 +24,19 @@ In the quantitative analysis, frequencies of all possible amino acid k-mers (2-m
 In qualitative analysis translated sequences were used to calculate hydrophobicity metrics according to Kyle-Doolittle hydrophobicity score or kidera factors. Obtained data was also combined with virus’ paths to test our hypothesis.  
 
 ## Prerequisites
-All preequisites can be found in **prerequisites.txt** at **help_dir**. Prequisites are written for anaconda enviroment.
+All preequisites can be found in **prerequisites.txt** at **help_dir**. Prequisites are written for anaconda's enviroment.
 
 It's recommended to use computer with at least **2 GB RAM** and **2,00 GHz** CPU, especially while training machine learning models using our scripts.
 
 ## Results
 
-Our main hypothesis is valid only for a part of the patients studied. For another part our model shows inconsistent results. We need more data to extensively validate the hypothesis or to eventually dismiss it. Also models in our pipeline should be improved to be more precise and sensitive.  
+**Quantitative analysis:**
+Using quantitative method we had proved main hypothesis to be valid only for a part of the patients studied: patient p1, patient p4 (approximately), patient p11 (approximately). For another patients our model shows inconsistent results.
 ![2_mer_illu](https://github.com/tsvvas/hiv_project/raw/dev_andrew_classification/results/frequency_2_mer_plot/2_mer_plot.png)
+We need more data to extensively validate the hypothesis or to eventually dismiss it. Also models in our pipeline should be improved to be more precise and sensitive.  
 
-Also 
+**Qualitative analysis:**
+_TBD_
 
 ## Usage
 
