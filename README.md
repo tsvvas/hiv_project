@@ -44,6 +44,7 @@ Trees has tend to have one strict path until the last day of sequencing (or one 
 **Quantitative analysis:**
 In quantitative pipeline 2-mer classificator was trained on represantative proteomes (see **Data** section). Classificators accuracy is about **84%** in division human (class 1) and non-human proteins (class 0). Classification report:
 
+<center>
 | Class | Precision | Recall | f1-score |
 | ------------- | ------------- | ------------- | ------------- |
 | 0 | 0.86 | 0.84 | 0.85 |
