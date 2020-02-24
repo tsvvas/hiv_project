@@ -34,12 +34,18 @@ It's recommended to use computer with at least **2 GB RAM** and **2,00 GHz** CPU
 **Evolution trees:**
 Phylogenetic trees for HIV's haplotype was created using day-by-day structure - each level equal to one day of sequencing:
 ![tree_illu](https://github.com/tsvvas/hiv_project/raw/dev_andrew_classification/results/examples/tree_example.png)
+
 Trees has tend to have one strict path until the last day of sequencing (or one day before last day). It can be interpreted as only one haplotype at each day (exact the last day) was able to survive and became progeny for others haplotypes, however this interpretation may be false. Further analyzes should be carried out.
 
-
 **Quantitative analysis:**
-In quantitative pipeline 2-mer classificator was trained on represantative proteomes (see **Data** section). It shows  
-Using quantitative method we have proved main hypothesis to be valid only for a part of the patients studied: patient p1, patient p4 (approximately), patient p11 (approximately). For another patients our model shows inconsistent results.
+In quantitative pipeline 2-mer classificator was trained on represantative proteomes (see **Data** section). Its accuracy is about **84%** in division human (class 1) and non-human proteins (class 0). Classification report for test-dataset:
+
+| Class | Precision | Recall | f1-score |
+| ------------- | ------------- | ------------- | ------------- |
+| 0 | 0.86 | 0.84 | 0.85 |
+| 1 | 0.83 | 0.85 | 0.84 |
+
+Using quantitative pipeline we have proved main hypothesis to be valid only for a part of the patients studied: patient p1, patient p4 (approximately), patient p11 (approximately). For another patients our model shows inconsistent results.
 ![2_mer_illu](https://github.com/tsvvas/hiv_project/raw/dev_andrew_classification/results/frequency_2_mer_plot/2_mer_plot.png)
 We need more data to extensively validate the hypothesis or to eventually dismiss it. Also models in our pipeline should be improved to be more precise and sensitive.  
 
