@@ -2,21 +2,21 @@
 
 # HIV evolution
 
-## Introduction:
+## Introduction
 Human immunodeficiency virus (**HIV**) is a retrovirus that infects human cells, especially CD4+ T-cells. HIV infection is a dreadful disease that requires lifelong treatment. Although there have been developed several therapeutics that inhibit HIV replication, they are not curative. That's why dealing with this virus is important task. HIV has several mechanisms for escaping from human's immunity. One of them is high mutation rate. In this project we are to investigate the molecular evolution of HIV in time, changes in HIV's proteins due to mutations and their connection with escape from immune system.
 
-## Data:
+## Data
 * Longitudinal HIV sequencing data was taken from https://hiv.biozentrum.unibas.ch/  
 * Represantative proteomes were taken from  https://www.uniprot.org/, https://www.ebi.ac.uk/ena. 
 You can download all represantative proteomes used in our project via https://drive.google.com/open?id=1Ghbuc4Tenl-fcvYZ6pyGLe-GHJ96jFjD (Be careful, download will start immediately).
 
-## Problem:
+## Problem
 HIV's high mutation rate is aimed to accommodate virus for exact human's immunity in order to escape it. HIV population typically mutates in the first few months after infection. The mutations are thoroughly studied and documented, but little focus was placed on the protein level. It is known that these mutations are preferentially found in CTL epitopes. But an interesting question is the fact whether these mutations are directed toward self, i.e., if they are aimed at becoming more like a host proteome, or not?
 
-## Main hypothesis:
+## Main hypothesis
 Main hypothesis of our project is that HIV mutates in direction toward its host to escape recognition. Although it's known that HIV's mutations occures in order to escape immune answer but we assume that this mutations is also providing similarity to human proteins.  
 
-## Solution:
+## Solution
 In order to validate the hypothesis we are going to measure the probability of HIV's peptide sequences to be similar to host (i.e. human). We derive the probability from the machine learning models trained to discriminate between human and pathogen peptide sequences.
 
 ## Methods:
