@@ -55,7 +55,8 @@ In quantitative pipeline 2-mer classificator was trained on represantative prote
 
 Using quantitative pipeline on HIV's region **V3** we have proved main hypothesis to be valid only for a part of the patients studied: patient p1, patient p4 (approximately), patient p11 (approximately). For another patients our model shows inconsistent results.
 ![2_mer_illu](https://github.com/tsvvas/hiv_project/raw/dev_andrew_classification/results/frequency_2_mer_plot/2_mer_plot.png)
-For another regions results can be not same to **V3** region.  
+For another regions results can be not same to **V3** region, example for **RRE** region:  
+![2_mer_illu_2](https://github.com/tsvvas/hiv_project/raw/dev_andrew_classification/results/frequency_2_mer_plot/2_mer_plot_RRE.png)
 We need more data to extensively validate the hypothesis or to eventually dismiss it. Also models in our pipeline should be improved to be more precise and sensitive.  
 
 **Qualitative analysis:**
