@@ -39,7 +39,7 @@ class Node:
         if self.level == 'root':
             return self.name
         else:
-            return self.name + ' ' + self.parent._make_path()
+            return self.name + ' ' + self.parent.make_path()
 
     def path(self):
         """
