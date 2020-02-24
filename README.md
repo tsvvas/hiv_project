@@ -32,8 +32,8 @@ It's recommended to use computer with at least **2 GB RAM** and **2,00 GHz** CPU
 ## Results
 
 **Evolution trees:**
-Phylogenetic trees for HIV's haplotype was created using day-by-day structure - each level equal to one day of sequencing:
-![tree_illu](https://github.com/tsvvas/hiv_project/raw/dev_andrew_classification/results/examples/tree_example.png)
+Phylogenetic trees for HIV's haplotype was created using day-by-day structure - each level equal to one day of sequencing:  
+![tree_illu](https://github.com/tsvvas/hiv_project/raw/dev_andrew_classification/results/examples/tree_example.png)  
 
 Trees has tend to have one strict path until the last day of sequencing (or one day before last day). It can be interpreted as only one haplotype at each day (exact the last day) was able to survive and became progeny for others haplotypes, however this interpretation may be false. Further analyzes should be carried out.
 
