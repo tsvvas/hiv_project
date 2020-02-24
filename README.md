@@ -38,7 +38,7 @@ Phylogenetic trees for HIV's haplotype was created using day-by-day structure - 
 Trees has tend to have one strict path until the last day of sequencing (or one day before last day). It can be interpreted as only one haplotype at each day (exact the last day) was able to survive and became progeny for others haplotypes, however this interpretation may be false. Further analyzes should be carried out.
 
 **Quantitative analysis:**
-In quantitative pipeline 2-mer classificator was trained on represantative proteomes (see **Data** section). Its accuracy is about **84%** in division human (class 1) and non-human proteins (class 0). Classification report for test-dataset:
+In quantitative pipeline 2-mer classificator was trained on represantative proteomes (see **Data** section). Classificators accuracy is about **84%** in division human (class 1) and non-human proteins (class 0). Classification report:
 
 | Class | Precision | Recall | f1-score |
 | ------------- | ------------- | ------------- | ------------- |
