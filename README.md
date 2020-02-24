@@ -64,7 +64,7 @@ _TBD_
 
 ## Usage
 
-Examples of how to use functions can be found in jupyter notebooks.  
+Examples of how to use functions can be found in **Example_classification.ipynb** jupyter notebook.  
 
 With our code you can make:  
 
