@@ -1,4 +1,5 @@
 from Bio.Align import PairwiseAligner
+import pandas as pd
 
 
 class Tree:
@@ -23,6 +24,10 @@ class Tree:
         self.mapping = {tuple(x): y for (x, y) in
                         zip(data.loc[:, ['days', 'sequence']].sort_values(by='days').itertuples(index=False),
                             range(len(data)))}
+
+        # дополнительный маппинг для вывода данных на печать
+        self._mapping = {tuple(x): y for (x, y) in zip(data.loc[:, ['days', 'sequence', 'frequency']].sort_values(
+            by='days').itertuples(index=False), range(len(data)))}
         self.graph = {}
 
     def build(self):
@@ -72,6 +77,24 @@ class Tree:
         # сохраняем корень дерева
         self.root = raw_tree[previous_day][parent]
 
+    def path_info(self, path):
+        """
+        Возвращает датафрейм с подробностями о пути
+        Args:
+            path (list): список идентификаторов вершин
+
+        Returns:
+            pd.DataFrame: отсортирован по дню, с последовательностями и их частотами
+        """
+        # получаем словарь соответсвий идентификаторов вершин и данных о записи
+        vertex_id = {key: val for (val, key) in self._mapping.items()}
+        id_data = []
+
+        # получаем список записей по идентификатам вершин
+        for x in path:
+            id_data.append(vertex_id[x])
+        return pd.DataFrame(id_data, columns=['day', 'seq', 'freq']).sort_values('day')
+
 
 class Node:
     """
@@ -101,8 +124,8 @@ class Node:
         aligner.mode = 'local'
 
         # заменим дефолтные символы пропуска на другие
-        seq = self.seq.replace('-', '_')
-        potential_parent_undersores = potential_parent.replace('-', '_')
+        seq = self.seq.replace('-', '')
+        potential_parent_undersores = potential_parent.replace('-', '')
 
         # выравнивание
         score = aligner.score(seq, potential_parent_undersores)

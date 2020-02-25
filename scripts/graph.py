@@ -37,6 +37,17 @@ class Graph(igraph_graph):
         max_edges = self.get_shortest_paths(0, weights='weight', mode='ALL', output="epath")[longest_path_id]
         return max_weighted_lenght, longest_path, max_edges
 
+    def all_paths(self, node=0):
+        """ returning all paths from a given node to vertices of a last day
+
+        Args:
+            node (int): vertex id from which paths are built
+
+        Returns:
+            list: a list of all paths consisting of vertex ids
+        """
+        return [x for x in self.get_shortest_paths(node) if len(x) == max(map(len, self.get_shortest_paths(node)))]
+
     def colour_path(self, edges):
         """ colouring the edges of the longest path """
         for edge_id in edges:
