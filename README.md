@@ -5,7 +5,7 @@
 # HIV evolution
 
 ## Introduction
-Human immunodeficiency virus (**HIV**) is a retrovirus that infects human cells, especially CD4+ T-cells. HIV infection is a dreadful disease that requires lifelong treatment. Although there have been developed several therapeutics that inhibit HIV replication, they are not curative. That's why dealing with this virus is an important task. HIV has several mechanisms for escaping human immune system: one of them is a high mutation rate. In this project we are to investigate the molecular evolution of HIV over time, changes in proteins of the HIV due to mutations and their relation to an escape from an immune system.
+The human immunodeficiency virus (**HIV**) is a retrovirus that infects human cells, especially CD4+ T-cells. HIV infection is a dreadful disease that requires lifelong treatment. Although there have been developed several therapeutics that inhibit HIV replication, they are not curative. That's why dealing with this virus is an important task. HIV has several mechanisms for escaping human immune system: one of them is a high mutation rate. In this project we are to investigate the molecular evolution of HIV over time, changes in proteins of the HIV due to mutations and their relation to an escape from an immune system.
 
 ## Data
 * Longitudinal HIV sequencing data was taken from https://hiv.biozentrum.unibas.ch/  
