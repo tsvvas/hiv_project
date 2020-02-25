@@ -33,6 +33,8 @@ def score_sequence(sequence, norm=False):
     Returns:
         pd.DataFrame: score
     """
+    if '*' in sequence:
+        sequence._data = sequence._data.replace('*', '')
     if norm:
         return kidera_factors.loc[list(sequence)].sum() / len(sequence)
     else:
@@ -51,10 +53,12 @@ def aaprop_sequence(sequence, norm=False):
     Returns:
         pd.DataFrame: score
     """
+    if '*' in sequence:
+        sequence._data = sequence._data.replace('*', '')
     if norm:
-        return aa_properties.loc[list(sequence)].sum() / len(sequence)
+        return aa_properties.loc[list(sequence), :].sum() / len(sequence)
     else:
-        return aa_properties.loc[list(sequence)].sum()
+        return aa_properties.loc[list(sequence), :].sum()
 
 
 def score_hydrophobicity_sequence(sequence, scale="Kyte-Doolittle", norm=False):
@@ -71,6 +75,8 @@ def score_hydrophobicity_sequence(sequence, scale="Kyte-Doolittle", norm=False):
     Returns:
         pd.DataFrame: score
     """
+    if '*' in sequence:
+        sequence._data = sequence._data.replace('*', '')
     if norm:
         return aa_hydrophobicity.loc[list(sequence), scale].sum() / len(sequence)
     else:
