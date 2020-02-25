@@ -60,7 +60,10 @@ For another regions results can be not same to **V3** region, example for **RRE*
 We need more data to extensively validate the hypothesis or to eventually dismiss it. Also models in our pipeline should be improved to be more precise and sensitive.  
 
 **Qualitative analysis:**
-_TBD_
+For further analysis the longest path from the reference was used.
+
+According to the classification model built using k-mers, a hypothesis about mutation of HIV to disguise becoming more like self cannot be confirmed.
+
 
 ## Usage
 
@@ -92,5 +95,5 @@ We want to show our apprecition to:
 ## Authors
 
 - Vasily Tsvetkov, Institute of Bioorganic Chemistry
-- Alexandra Ovsyannikova, Institute of Cyber Intelligence systems - National Research Nuclear University MEPhI
+- Alexandra Ovsyannikova, National Research Nuclear University MEPhI
 - Andrey Kravets, Moscow Institute of Physics and Technology
