@@ -9,8 +9,8 @@ Human immunodeficiency virus (**HIV**) is a retrovirus that infects human cells,
 
 ## Data
 * Longitudinal HIV sequencing data was taken from https://hiv.biozentrum.unibas.ch/  
-* Represantative proteomes were taken from  https://www.uniprot.org/, https://www.ebi.ac.uk/ena. 
-You can download all represantative proteomes used in our project via https://drive.google.com/open?id=1Ghbuc4Tenl-fcvYZ6pyGLe-GHJ96jFjD (Be careful, download will start immediately).
+* Representative proteomes were taken from  https://www.uniprot.org/, https://www.ebi.ac.uk/ena. 
+You can download all representative proteomes used in our project via https://drive.google.com/open?id=1Ghbuc4Tenl-fcvYZ6pyGLe-GHJ96jFjD (Be careful, download will start immediately).
 
 ## Problem
 HIV's high mutation rate is aimed to accommodate virus for exact human's immunity in order to escape it. HIV population typically mutates in the first few months after infection. The mutations are thoroughly studied and documented, but little focus was placed on the protein level. It is known that these mutations are preferentially found in CTL epitopes. But an interesting question is the fact whether these mutations are directed toward self, i.e., if they are aimed at becoming more like a host proteome, or not?
@@ -27,7 +27,7 @@ In the quantitative analysis, frequencies of all possible amino acid k-mers (2-m
 In qualitative analysis translated sequences were used to calculate hydrophobicity metrics according to Kyle-Doolittle hydrophobicity score or kidera factors. Obtained data was also combined with virus’ paths to test our hypothesis.  
 
 ## Prerequisites
-All preequisites can be found in **prerequisites.txt** at **help_dir**. Prequisites are written for anaconda's enviroment.
+All prerequisites can be found in **prerequisites.txt** at **help_dir**. Prerequisites are written for anaconda's enviroment.
 
 It's recommended to use computer with at least **2 GB RAM** and **2,00 GHz** CPU, especially while training machine learning models using our scripts.
 
@@ -42,7 +42,7 @@ Phylogenetic trees for HIV's haplotype was created using day-by-day structure - 
 Trees has tend to have one strict path until the last day of sequencing (or one day before last day). It can be interpreted as only one haplotype at each day (exact the last day) was able to survive and became progeny for others haplotypes, however this interpretation may be false. Further analyzes should be carried out.
 
 **Quantitative analysis:**
-In quantitative pipeline 2-mer classificator was trained on represantative proteomes (see **Data** section). Classificators accuracy is about **84%** in division human (class 1) and non-human proteins (class 0). Classification report:
+In quantitative pipeline 2-mer classificator was trained on representative proteomes (see **Data** section). Classificators accuracy is about **84%** in division human (class 1) and non-human proteins (class 0). Classification report:
 
 <center>
 
@@ -60,10 +60,10 @@ For another regions results can be not same to **V3** region, example for **RRE*
 We need more data to extensively validate the hypothesis or to eventually dismiss it. Also models in our pipeline should be improved to be more precise and sensitive.  
 
 **Qualitative analysis:**
-For further analysis the longest path from the reference was used.
-
+For further analysis the longest path from the reference was used (marked red).
+![path](https://raw.githubusercontent.com/tsvvas/hiv_project/readme_pics/test_allyBetweenness.png)
 According to the classification model built using k-mers, a hypothesis about mutation of HIV to disguise becoming more like self cannot be confirmed.
-
+![probs](https://raw.githubusercontent.com/tsvvas/hiv_project/readme_pics/probability_score.png)
 
 ## Usage
 
@@ -73,7 +73,7 @@ With our code you can make:
 
 * Download data from [this database](https://hiv.biozentrum.unibas.ch/)  
 * Single-patient phylogenetic tree  
-* Train Random Forest on represantative proteomes (but proteomes should be downloaded with the use of get_bact_fasta.sh from scripts)  
+* Train Random Forest on representative proteomes (but proteomes should be downloaded with the use of get_bact_fasta.sh from scripts)  
 * Use our explained pipelines  
 
 ## Roadmap
@@ -88,7 +88,7 @@ Pull requests are welcome. For major changes, please open an issue first to disc
 Please make sure to update tests as appropriate.
 
 ## Acknowledgments
-We want to show our apprecition to:
+We want to show our appreciation to:
 - Fabio Zanini and Co. for making helpful interesting [paper](https://elifesciences.org/articles/11282) and giving free access to their [database](https://hiv.biozentrum.unibas.ch)
 - [Bioinformatics Institute](https://bioinf.me/en) for additional help in creating our team and other stuff
 
