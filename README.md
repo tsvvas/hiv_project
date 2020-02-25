@@ -34,7 +34,7 @@ It's recommended to use computer with at least **2 GB RAM** and **2,00 GHz** CPU
 ## Results
 
 **Evolution trees:**
-Phylogenetic trees for HIV's haplotype were created using day-by-day structure - each level equals to one day of sequencing:
+Phylogenetic trees for HIV haplotype were created using day-by-day structure - each level equals to one day of sequencing:
 <p align="center">
   <img width="597" height="510" src="https://github.com/tsvvas/hiv_project/raw/readme_pics/images/quantitative/examples/tree_example.png">
 </p> 
@@ -53,7 +53,7 @@ In quantitative pipeline a classifier using 2-mers was trained on representative
 
 </center>
 
-Using quantitative pipeline on HIV's region **V3** we have proved main hypothesis to be valid only for a part of the patients studied: patient p1, patient p4 (approximately), patient p11 (approximately). For other patients our model shows inconsistent results.
+Using quantitative pipeline on region **V3** we have proved main hypothesis to be valid only for a part of the patients studied: patient p1, patient p4 (approximately), patient p11 (approximately). For other patients our model shows inconsistent results.
 ![2_mer_illu](https://github.com/tsvvas/hiv_project/raw/readme_pics/images/quantitative/frequency_2_mer_plot/2_mer_plot.png)
 For other regions results can be not so similar to **V3** region, example for **RRE** region:  
 ![2_mer_illu_2](https://github.com/tsvvas/hiv_project/raw/readme_pics/images/quantitative/frequency_2_mer_plot/2_mer_plot_RRE.png)
