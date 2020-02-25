@@ -16,7 +16,7 @@ You can download all representative proteomes used in our project via https://dr
 HIV's high mutation rate is aimed to accommodate virus for exact human's immunity in order to escape it. HIV population typically mutates in the first few months after infection. The mutations are thoroughly studied and documented, but little focus was placed on the protein level. It is known that these mutations are preferentially found in CTL epitopes. But an interesting question is the fact whether these mutations are directed toward self, i.e., if they are aimed at becoming more like a host proteome, or not?
 
 ## Main hypothesis
-Main hypothesis of our project is that HIV mutates in direction toward its host to escape recognition. Although it's known that HIV's mutations occures in order to escape immune answer but we assume that this mutations is also providing similarity to human proteins.  
+Main hypothesis of our project is that HIV mutates in direction toward its host to escape recognition. Although it's known that HIV's mutations occurs in order to escape immune answer but we assume that this mutations is also providing similarity to human proteins.  
 
 ## Solution
 In order to validate the hypothesis we are going to measure the probability of HIV's peptide sequences to be similar to host (i.e. human). We derive the probability from the machine learning models trained to discriminate between human and pathogen peptide sequences.
