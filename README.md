@@ -101,3 +101,5 @@ We want to show our appreciation to:
 - Vasily Tsvetkov, Institute of Bioorganic Chemistry
 - Alexandra Ovsyannikova, National Research Nuclear University MEPhI
 - Andrey Kravets, Moscow Institute of Physics and Technology
+- Lolita Alekseeva, Moscow State University
+- Denis Khamitov, Moscow State University
