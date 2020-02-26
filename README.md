@@ -28,7 +28,7 @@ In qualitative analysis translated sequences were used to calculate hydrophobici
 ## Prerequisites
 Pip and conda prerequisites can be found in **pip_prerequisites.txt** and **conda_prerequisites.txt** respectively.
 
-It's recommended to use a computer with at least **2 GB RAM** and **2,00 GHz** CPU, especially while training  machine learning models using our scripts.
+It's recommended to use a computer with at least **2 GB RAM** and **2.00 GHz** CPU, especially while training machine learning models using our scripts.
 
 ## Results
 
@@ -59,15 +59,16 @@ For other regions results can be not so similar to **V3** region, example for **
 We need more data to extensively validate the hypothesis or to eventually reject it.
 
 **Qualitative analysis:**
-For further analysis the longest path from the reference node was used (marked red).
+For further analysis the longest path from the reference node was used (red edges).
 <p align="center">
   <img width="400" height="350" src="https://raw.githubusercontent.com/tsvvas/hiv_project/readme_pics/images/qualitative/test_allyBetweenness.png">
 </p>
-According to the classification model built using k-mers, a hypothesis about mutation of HIV to disguise becoming more like self cannot be confirmed.
+According to the research, a hypothesis about mutation of HIV to disguise becoming more like self cannot be confirmed. A classification model built using k-mers provides controversial scores describing the probability of receiving an immune response over time.
+On the plots below you can observe the predicted probabilities of receiving an immune response for different regions of one patient.
 
 ![probs](https://github.com/tsvvas/hiv_project/raw/readme_pics/images/qualitative/probability_score.png)  
 
-Qualitative analysis also can't provide clear answer on direction of HIV's mutation. 
+Qualitative analysis also can't provide clear answer on direction of HIV mutation. 
 
 ## Usage
 
