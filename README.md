@@ -9,8 +9,7 @@ The human immunodeficiency virus (**HIV**) is a retrovirus that infects human ce
 
 ## Data
 * Longitudinal HIV sequencing data was taken from https://hiv.biozentrum.unibas.ch/  
-* Representative proteomes were taken from  https://www.uniprot.org/, https://www.ebi.ac.uk/ena. 
-You can download all representative proteomes used in our project via https://drive.google.com/open?id=1Ghbuc4Tenl-fcvYZ6pyGLe-GHJ96jFjD (Be careful, download will start immediately).
+* Representative proteomes were taken from  https://www.uniprot.org/. All UniProt accsession ids can be found in **accsession_id.txt**.
 
 ## Problem
 High mutation rate of the HIV is aimed to accommodate virus to exact human immunity in order to escape it. HIV population typically mutates in the first few months after the infection. The mutations are thoroughly studied and documented, but little focus was placed on the protein level. It is known that these mutations are preferentially found in CTL epitopes. However, an interesting question is whether these mutations are directed toward self, i.e., if they are aimed at becoming more like a host proteome or not.
@@ -27,7 +26,7 @@ In the quantitative analysis, frequencies of all possible amino acid k-mers (2-m
 In qualitative analysis translated sequences were used to calculate hydrophobicity metrics according to Kyle-Doolittle hydrophobicity score or Kidera factors. Obtained data was also combined with paths of the virus to test our hypothesis.  
 
 ## Prerequisites
-All prerequisites can be found in **prerequisites.txt** at **help_dir**. Prerequisites are written for Anaconda enviroment.
+Pip and conda prerequisites can be found in **pip_prerequisites.txt** and **conda_prerequisites.txt** respectively.
 
 It's recommended to use computer with at least **2 GB RAM** and **2,00 GHz** CPU, especially while training machine learning models using our scripts.
 
