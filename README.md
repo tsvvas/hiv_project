@@ -36,7 +36,7 @@ It's recommended to use computer with at least **2 GB RAM** and **2,00 GHz** CPU
 **Evolution trees:**
 Phylogenetic trees for HIV haplotype were created using day-by-day structure - each level equals to one day of sequencing:
 <p align="center">
-  <img width="597" height="510" src="https://github.com/tsvvas/hiv_project/raw/readme_pics/images/quantitative/examples/tree_example.png">
+  <img width="400" height="350" src="https://github.com/tsvvas/hiv_project/raw/readme_pics/images/quantitative/examples/tree_example.png">
 </p> 
 
 Trees tend to have one isolated path except for the last day of sequencing (or one day before last day). It can be interpreted as only one haplotype at each day was able to survive and become an ancestor for other haplotypes, however this interpretation may be incorrect. Further analysis should be carried out.
@@ -61,9 +61,12 @@ We need more data to extensively validate the hypothesis or to eventually reject
 
 **Qualitative analysis:**
 For further analysis the longest path from the reference node was used (marked red).
-![path](https://raw.githubusercontent.com/tsvvas/hiv_project/readme_pics/images/qualitative/test_allyBetweenness.png)
+<p align="center">
+  <img width="400" height="350" src="https://raw.githubusercontent.com/tsvvas/hiv_project/readme_pics/images/qualitative/test_allyBetweenness.png">
+</p>
 According to the classification model built using k-mers, a hypothesis about mutation of HIV to disguise becoming more like self cannot be confirmed.
 ![probs](https://raw.githubusercontent.com/tsvvas/hiv_project/readme_pics/images/qualitative/probability_score.png)
+Qualitative analysis also can't provide clear answer on direction of HIV's mutation. 
 
 ## Usage
 
