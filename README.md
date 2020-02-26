@@ -27,7 +27,7 @@ In the quantitative analysis, frequencies of all possible amino acid k-mers (2-m
 In qualitative analysis translated sequences were used to calculate hydrophobicity metrics according to Kyle-Doolittle hydrophobicity score or Kidera factors. Obtained data was also combined with paths of the virus to test our hypothesis.  
 
 ## Prerequisites
-All prerequisites can be found in **prerequisites.txt** at **help_dir**. Prerequisites are written for Anaconda enviroment.
+Pip and conda prerequisites can be found in **pip_prerequisites.txt** and **conda_prerequisites.txt** respectively.
 
 It's recommended to use computer with at least **2 GB RAM** and **2,00 GHz** CPU, especially while training machine learning models using our scripts.
 
