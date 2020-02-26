@@ -64,8 +64,8 @@ For further analysis the longest path from the reference node was used (marked r
 <p align="center">
   <img width="400" height="350" src="https://raw.githubusercontent.com/tsvvas/hiv_project/readme_pics/images/qualitative/test_allyBetweenness.png">
 </p>
-According to the classification model built using k-mers, a hypothesis about mutation of HIV to disguise becoming more like self cannot be confirmed.
-![probs](https://raw.githubusercontent.com/tsvvas/hiv_project/readme_pics/images/qualitative/probability_score.png)
+According to the classification model built using k-mers, a hypothesis about mutation of HIV to disguise becoming more like self cannot be confirmed.  
+![probs](https://raw.githubusercontent.com/tsvvas/hiv_project/readme_pics/images/qualitative/probability_score.png)  
 Qualitative analysis also can't provide clear answer on direction of HIV's mutation. 
 
 ## Usage
