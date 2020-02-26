@@ -59,7 +59,7 @@ For other regions results can be not so similar to **V3** region, example for **
 We need more data to extensively validate the hypothesis or to eventually reject it.
 
 **Qualitative analysis:**
-For further analysis the longest path from the reference node in a phylogenetic tree was used (red edges). A tree for one region of a patient is shown.
+For further analysis the longest path from the reference node in a phylogenetic tree was used (red edges). A tree for one region of a patient is shown below.
 <p align="center">
   <img width="400" height="350" src="https://raw.githubusercontent.com/tsvvas/hiv_project/readme_pics/images/qualitative/test_allyBetweenness.png">
 </p>
