@@ -1,5 +1,6 @@
-from patients_and_translation import translate_dna
 from Bio import Align
+from Bio import Seq
+from Bio.Alphabet import IUPAC, Gapped
 import pandas as pd
 
 
@@ -46,7 +47,7 @@ def calculate_metric(seq):
     """
 
     # translating protein
-    prot = translate_dna(seq, gap='-')
+    prot = Seq(seq, Gapped(IUPAC.unambiguous_dna)).ungap().translate()
 
     # calculating metrics
     res = 0
