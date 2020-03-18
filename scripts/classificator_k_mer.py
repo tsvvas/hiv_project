@@ -7,20 +7,23 @@ from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import classification_report
 
 
-def preprocessing_data():
+def preprocessing_data(path):
     """
-    Reading all csv_files from 'csv_data' dir
+    Reading all csv_files from {your path} dir
+    
+    Args:
+        path: str, path to dir with csv_files
 
     Returns:
         feature_matrix: array, array with features needed to train classificator
         labels_categorized: array, array with labels for objects
     """
     # reading files' paths from csv_data folder
-    csv_files = [f for f in os.listdir('csv_data') if isfile(join('csv_data', f))]
+    csv_files = [f for f in os.listdir(path) if isfile(join(path, f))]
 
     # changing paths
     for i in range(len(csv_files)):
-        csv_files[i] = 'csv_data/{csv_files[i]}'
+        csv_files[i] = f'{path}/{csv_files[i]}'
 
     # making dataframe
     proteins_data = pd.DataFrame()
@@ -49,11 +52,19 @@ def preprocessing_data():
             labels.append(1)
         else:
             labels.append(0)
-
+    
+    # fixing feature_matrix
+    if type(feature_matrix[0][0]) == str:
+        n, m = feature_matrix.shape
+        for i in range(n):
+            for j in range(m):
+                tmp = float(feature_matrix[i][j].replace('[','').replace(']',''))
+                feature_matrix[i][j] = tmp
+    
     return feature_matrix, labels
 
 
-def making_classificator(feature_matrix, labels, n_estimators=300, max_depth=15, bootstrap='True',
+def making_classificator(feature_matrix, labels, name, n_estimators=350, max_depth=15, bootstrap='True',
                          max_features='sqrt', n_jobs=-1):
     """
         Making Random Forest classificator and storing it at 'saved_sklean_models' dir
@@ -63,6 +74,7 @@ def making_classificator(feature_matrix, labels, n_estimators=300, max_depth=15,
     Args:
         feature_matrix: array, array with features needed to train classificator
         labels: array, array with labels connected to feature_matrix to train classificator
+        name: str, name for the classificator to save
         n_estimators: int, default = 300
         max_depth: int, default = 15
         bootstrap: str, default = 'True'
@@ -84,7 +96,7 @@ def making_classificator(feature_matrix, labels, n_estimators=300, max_depth=15,
     print(classification_report(test_labels, y_pred, labels=[0, 1]))
 
     # saving classificator in 'saved_sklearn_models' folder
-    print(r'Saving classificator in ../saved_sklearn_models folder')
+    print(r'Saving classificator in ../saved_sklearn_models/ folder')
 
     # making dir
     if not os.path.isdir('saved_sklearn_models'):
@@ -92,6 +104,6 @@ def making_classificator(feature_matrix, labels, n_estimators=300, max_depth=15,
         print('saved_sklearn_models directory is created')
 
     # saving model
-    dump(forest, '../saved_sklearn_models/random_forest.joblib')
+    dump(forest, f'saved_sklearn_models/{name}.joblib')
 
     return

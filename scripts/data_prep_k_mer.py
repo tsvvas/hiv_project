@@ -117,21 +117,30 @@ def finding_freq_single_protein(seq, aa_k_mer_list):
     # Standardizing our frequencies
     scaler = preprocessing.StandardScaler()
     vector_freq_scaled = scaler.fit_transform(vector_freq)
+    
+    # KOCTblJLb (our vector from finding_freq_bla_bla is not feeling well (my bad :))
+    try:
+        tmp = []
+        for x in vector_freq_scaled:
+            tmp.append(float(x[0]))
 
-    return list(vector_freq_scaled)
+        return tmp
+    except:
+        return list(vector_freq_scaled)
+        
 
 
 def main_analyzes(path, k_mer_num):
     """
-    Construct "organism_name".csv with k-mer analyzes
+    Construct "organism_name".csv with k-mer analyzes. Will store analyzed file in 'data/csv_data' directory.
     !!!Warning!!! can take much time, so be prepared and sure that all parameters are good
     Args:
         path: str, path to file in fasta format with represantative proteome used in analyzes
         k_mer_num: int, k-mer length
     """
     # creating dir to store CSVs produced by function
-    if not os.path.isdir('csv_data'):
-        os.mkdir('csv_data')
+    if not os.path.isdir('data/csv_data'):
+        os.mkdir('data/csv_data')
 
     # initializing aa_subseqs
     aa_k_mer_list = making_aa_k_mers(k_mer_num)
@@ -150,12 +159,12 @@ def main_analyzes(path, k_mer_num):
         human_list = []
 
         # appending all human proteins to list and splitting it into 100 parts
-        prot_records_split = np.array_split(prot_records, 100)
+        prot_records_split = np.array_split(prot_records, 20)
         for prot_data_part in prot_records_split:
             human_list.append(prot_data_part)
 
         # We will split analyze of human, because human proteom is too big to handle
-        for j in tqdm.tqdm_notebook(range(0, 100)):
+        for j in tqdm.tqdm_notebook(range(0, 20)):
 
             # Creating pd.df
             proteins_data = pd.DataFrame(columns=table_columns)
@@ -180,7 +189,7 @@ def main_analyzes(path, k_mer_num):
                 index += 1
 
             # Writing file for every part of data, we will combine them later
-            writing_path = 'csv_data/' + organism_name + '_' + str(j) + '.csv'
+            writing_path = 'data/csv_data/' + organism_name + '_' + str(j) + '.csv'
             proteins_data.to_csv(writing_path)
 
         return
@@ -209,31 +218,32 @@ def main_analyzes(path, k_mer_num):
         index += 1
 
     # Writing file
-    writing_path = 'csv_data/' + organism_name + '.csv'
+    writing_path = 'data/csv_data/' + organism_name + '.csv'
     proteins_data.to_csv(writing_path)
 
     return
 
 
-def main(k):
+def main(folder, k):
     """
     Main functions to work with. Applying full analyze on all
     represantative proteomes you have.
     Args:
+        folder: str, folder with stored proteomes
         k: int, k-mer length
     """
     # helpful words
-    if not os.path.isdir('../data/proteomes'):
+    if not os.path.isdir(folder):
         raise FileExistsError('Have you download all needed represantative proteomes (or added yours maybe) and '
                               'stored them in "data/proteomes" folder?')
 
     # making list with file names in 'proteomes' dir
-    data_files = [f for f in os.listdir('../data/proteomes') if os.path.isfile(os.path.join('../data/proteomes', f))]
+    data_files = [f for f in os.listdir(folder) if os.path.isfile(os.path.join(folder, f))]
 
     # changing a bit paths from data_files in order to make everything work fine
     files_path = []
     for i in range(len(data_files)):
-        files_path.append('../data/proteomes/{data_files[i]}')
+        files_path.append(f'{folder}/{data_files[i]}')
 
     # using main_analyzes for all files
     for file in files_path:

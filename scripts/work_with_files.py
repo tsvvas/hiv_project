@@ -34,7 +34,7 @@ def read_fasta(path):
     record_list = list(fasta_test_file)
 
     # making org_name
-    org_name = path.replace('../data/proteomes/', '').replace('.fasta', '')
+    org_name = re.search(r'\w*.fasta' , path)[0].replace('.fasta', '')
 
     return record_list, org_name
 
