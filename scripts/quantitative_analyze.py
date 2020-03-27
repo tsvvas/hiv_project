@@ -72,9 +72,11 @@ class Quantitative:
             # finding frequency metrics
             tmp = data_prep_k_mer.finding_freq_single_protein(prot, aa_k_mer_list)
 
-            # KOCTblJLb (our vector from finding_freq_single_protein is not feeling well (my bad :))
-            for x in tmp:
-                metric_path[-1].append(float(x[0]))
+            try:# KOCTblJLb (our vector from finding_freq_single_protein is not feeling well (my bad :))
+                for x in tmp:
+                    metric_path[-1].append(float(x[0]))
+            except:
+                metric_path[-1] = tmp
 
         return metric_path
 
@@ -96,7 +98,7 @@ class Quantitative:
             aa_k_mer_list = data_prep_k_mer.making_aa_k_mers(2)
 
             # preparing references for all patients
-            ref = patients_data.Reference('data/hivevo')
+            ref = patients_data.Reference('data/references')
 
             # for-loop for patients
             for patient in self.patients_list:

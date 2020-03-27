@@ -19,9 +19,10 @@ class Loader:
         Args:
             folder (str): путь, куда будет произведена загрузка
         """
-        # если папок не существует, то создаём её
+        
+        # если папок не существует, то создаём их
         if not os.path.isdir(folder[:folder.find('/')]):
-            os.mkdir(folder)
+            os.mkdir(folder[:folder.find('/')])
         
         if not os.path.isdir(folder):
             os.mkdir(folder)
@@ -140,7 +141,7 @@ class Loader:
             with self.http.request('GET', url, preload_content=False) as res, open(filename, 'wb') as out_file:
                 shutil.copyfileobj(res, out_file)
     
-    def load_all(self):
+    def load_all(self, load_bam=False):
         """
         Download for each patient: haplotypes, pcr statistics, bam files, references using all methods of the class
         with default parameters. Will last about 1-2 hours (mostly because of bam_files). Require 3 GB of empty space.
@@ -151,9 +152,16 @@ class Loader:
             |-> references (folder for references)
             |-> pcr_stats (folder for PCR statistics)
             |-> bam_files (folder for bam files)
+            
+        Args:
+            load_bam (bool): default=False, if False script wont download bam files, if True it will.
+        
+        Note: bam files are huge, so be careful.
         """
         self.load_haplotypes()
         self.load_references()
         self.load_pcr_stats()
-        for patient in self.patients:
-            self.load_bam(patient)
+        
+        if load_bam:
+            for patient in self.patients:
+                self.load_bam(patient)

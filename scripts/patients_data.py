@@ -132,9 +132,9 @@ class Reference:
 
                 self.reference_df = pd.concat([self.reference_df, t], ignore_index=True)
 
-        # если это делалось для одного пациента, то сразу отдаём объект с его регионами
+        '''# если это делалось для одного пациента, то сразу отдаём объект с его регионами
         if patient:
-            self.region = Region(self.reference_df)
+            self.region = Region(self.reference_df)'''
 
     def get_patient(self, patient, region=None):
         """
@@ -146,6 +146,7 @@ class Reference:
         Returns:
             pd.DataFrame: отфильтрованные данные
         """
+        
         if region:
             return self.reference_df.drop(['id'], axis=1).loc[(self.reference_df.id == f'reference_{patient}') &
                                          (self.reference_df.name == region)]
