@@ -8,17 +8,19 @@ from Bio.Alphabet import IUPAC, Gapped
 class Patient:
     """ Класс для хранения данных пациента """
 
-    def __init__(self, pid, data_path='data/hivevo'):
+    def __init__(self, pid, data_path='data/hivevo', verbose=False):
         """
         Args:
             pid (str): ID пациента
             data_path (str): путь до данных
+            verbose (bool): говорливость кода
         """
         self.id = pid
         self.reference = Reference(data_path, patient=pid)
         self.status = None
         self.data_path = data_path
         self.regions = None
+        self.verbose = verbose
 
         # сразу записываем регионы
         self.init_regions()
@@ -38,7 +40,8 @@ class Patient:
 
             # если не смогли скачать данные, то пишем об этом
             if type(region_file) == dict:
-                print(f'No haplotype for patient {self.id} for region {name}')
+                if self.verbose:
+                    print(f'No haplotype for patient {self.id} for region {name}')
                 continue
 
             # временный датасет
@@ -60,7 +63,8 @@ class Patient:
             regions = pd.concat([regions, region], ignore_index=True)
 
         # теперь имеем объект регионов!
-        self.regions = Region(regions)
+        # сюда дописываем данные по референсам, они под днем 0
+        self.regions = Region(pd.concat([regions, self.reference.reference_df.drop(['id'], axis=1)], ignore_index=True))
 
 
 class Reference:
@@ -92,18 +96,26 @@ class Reference:
                 t.location = t.location.apply(pd.Series)
 
                 # вырезаем последовательность
-                t['region_seq'] = t.apply(lambda x: x.seq[x.location[0]:x.location[1]], axis=1)
+                t['region_seq'] = t.apply(lambda x: x.seq[x.location[0]:x.location[1]].strip(), axis=1)
 
                 # переименовываем для единообразия
                 t.rename(mapper={'region_seq': 'sequence', 'seq': 'full_reference'}, axis=1, inplace=True)
                 t['translated'] = t.sequence.apply(lambda x: Seq(x, Gapped(IUPAC.unambiguous_dna)).ungap().translate())
                 self.reference_df = pd.concat([self.reference_df, t], ignore_index=True)
 
+        # оставляем только нужные колонки
+        self.reference_df = self.reference_df[['sequence', 'name', 'translated', 'id']]
+
+        # остальное дописываем вручную (это будет использоваться в дереве)
+        self.reference_df['days'] = 0
+        self.reference_df['frequency'] = 100
+        self.reference_df['nreads'] = 1
+
         # если это делалось для одного пациента, то сразу отдаём объект с его регионами
         if patient:
             self.region = Region(self.reference_df)
 
-    def patient(self, patient, region=None):
+    def get_patient(self, patient, region=None):
         """
         Функция для извлечения данных о пациенте или пациенте и регионе, если используем класс отдельно
         Args:
