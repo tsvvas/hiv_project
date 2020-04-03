@@ -8,15 +8,16 @@ from Bio.Alphabet import IUPAC, Gapped
 class Patient:
     """ Класс для хранения данных пациента """
 
-    def __init__(self, pid, data_path='data/hivevo', verbose=False):
+    def __init__(self, pid, data_path='data/hivevo', reference_path='data/references', verbose=False):
         """
         Args:
             pid (str): ID пациента
             data_path (str): путь до данных
             verbose (bool): говорливость кода
+            reference_path (str): путь, куда будет произведена загрузка референсов
         """
         self.id = pid
-        self.reference = Reference(data_path, patient=pid)
+        self.reference = Reference(reference_path, patient=pid)
         self.status = None
         self.data_path = data_path
         self.regions = None

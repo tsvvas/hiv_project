@@ -116,7 +116,7 @@ class Loader:
                 with self.http.request('GET', url, preload_content=False) as res, open(filename, 'wb') as out_file:
                     shutil.copyfileobj(res, out_file)
 
-    def load_references(self, folder='data/hivevo'):
+    def load_references(self, folder='data/references'):
         """
         Загрузка референсов
 
@@ -137,7 +137,7 @@ class Loader:
             with self.http.request('GET', url, preload_content=False) as res, open(filename, 'wb') as out_file:
                 shutil.copyfileobj(res, out_file)
 
-    def load_all(self):
+    def load_all(self, bam=False):
         """
         Download for each patient: haplotypes, pcr statistics, bam files, references using all methods of the class
         with default parameters. Will last about 1-2 hours (mostly because of bam_files). Require 3 GB of empty space.
@@ -148,9 +148,13 @@ class Loader:
             |-> references (folder for references)
             |-> pcr_stats (folder for PCR statistics)
             |-> bam_files (folder for bam files)
+
+        Args:
+            bam (bool): загружать .bam
         """
         self.load_haplotypes()
         self.load_references()
         self.load_pcr_stats()
-        for patient in self.patients:
-            self.load_bam(patient)
+        if bam:
+            for patient in self.patients:
+                self.load_bam(patient)
