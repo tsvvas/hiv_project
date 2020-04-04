@@ -65,7 +65,7 @@ class Patient:
 
         # теперь имеем объект регионов!
         # сюда дописываем данные по референсам, они под днем 0
-        self.regions = Region(pd.concat([regions, self.reference.reference_df.drop(['id'], axis=1)], ignore_index=True))
+        self.regions = Region(pd.concat([regions, self.reference.reference_df.drop(['id'], axis=1)], ignore_index=True).sort_values(by=['days']))
 
 
 class Reference:
