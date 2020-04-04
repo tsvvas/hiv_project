@@ -13,7 +13,7 @@ from joblib import load
 from igraph import Graph as igraph_graph, plot, rescale
 
 import graph
-import patients_data
+import patient
 import tree_building
 import data_prep_k_mer
 
@@ -97,27 +97,17 @@ class Quantitative:
             # making k-mers
             aa_k_mer_list = data_prep_k_mer.making_aa_k_mers(2)
 
-            # preparing references for all patients
-            ref = patients_data.Reference('data/references')
-
             # for-loop for patients
-            for patient in self.patients_list:
+            for pat_id in self.patients_list:
 
                 # We will not use patient#3 and patient#10 because their HIV wasn't cool at all
                 # joke, additional info can be found here (https://elifesciences.org/articles/11282)
 
-                if patient != 'p3' and patient != 'p10':
+                if pat_id != 'p3' and pat_id != 'p10':
 
                     # creating dataset for patient
-                    pat_class = patients_data.Patient(patient)
+                    pat_class = patient.Patient(pat_id)
                     pat_data = pat_class.regions[region]
-
-                    # extracting reference
-                    ref_data = ref.get_patient(patient, region=region)
-
-                    # adding reference to dataset -> now we are ready to construct tree
-                    pat_data = pd.concat([ref_data, pat_data], ignore_index=True).sort_values(by=['days'])
-                    # print(pat_data)
 
                     # Constructing tree
                     tree = tree_building.Tree(pat_data)
@@ -152,19 +142,19 @@ class Quantitative:
                     days = sorted(list(days))
 
                     # adding patient
-                    self.patients_evolution[patient] = {}
-                    self.patients_evolution[patient]['X'] = None
-                    self.patients_evolution[patient]['Y'] = []
+                    self.patients_evolution[pat_id] = {}
+                    self.patients_evolution[pat_id]['X'] = None
+                    self.patients_evolution[pat_id]['Y'] = []
 
                     # Making X
-                    self.patients_evolution[patient]['X'] = days
+                    self.patients_evolution[pat_id]['X'] = days
 
                     # Using classificator to find out probability to be human's gene
 
                     for path in phylo_paths:
                         met = self.clf_metric_2_mer_path(path, prot_dict, aa_k_mer_list)
                         Y = self.classificator.predict_proba(met)[:, 1]
-                        self.patients_evolution[patient]['Y'].append(Y)
+                        self.patients_evolution[pat_id]['Y'].append(Y)
         else:
             print('There is no data for this region. Please choose other one or consider haplotype calling for this region')
            

@@ -4,34 +4,24 @@ import os
 from Bio.Seq import Seq
 from Bio.Alphabet import IUPAC, Gapped
 
-import pandas as pd
-import json
-import os
-from Bio.Seq import Seq
-from Bio.Alphabet import IUPAC, Gapped
-
-def get_patients():
-    return [f'p{i}' for i in range(1, 12)]
-
-def get_regions():
-    return ["V3", "PR", "psi", "vpr", "vpu", "p1", "p2", "p6", "p7", "p15", "p17", "RRE"]
 
 class Patient:
     """ Класс для хранения данных пациента """
 
-    def __init__(self, pid, data_path='data/hivevo', verbosity=False):
+    def __init__(self, pid, data_path='data/hivevo', reference_path='data/references', verbose=False):
         """
         Args:
             pid (str): ID пациента
             data_path (str): путь до данных
-            verbosity (bool): говорливость кода
+            verbose (bool): говорливость кода
+            reference_path (str): путь, куда будет произведена загрузка референсов
         """
         self.id = pid
-        self.reference = Reference(data_path, patient=pid)
+        self.reference = Reference(reference_path, patient=pid)
         self.status = None
         self.data_path = data_path
         self.regions = None
-        self.verbosity = verbosity
+        self.verbose = verbose
 
         # сразу записываем регионы
         self.init_regions()
@@ -51,12 +41,9 @@ class Patient:
 
             # если не смогли скачать данные, то пишем об этом
             if type(region_file) == dict:
-                
-                if self.verbosity:
+                if self.verbose:
                     print(f'No haplotype for patient {self.id} for region {name}')
-                
                 continue
-            
 
             # временный датасет
             region = pd.DataFrame(data=region_file)
@@ -77,7 +64,8 @@ class Patient:
             regions = pd.concat([regions, region], ignore_index=True)
 
         # теперь имеем объект регионов!
-        self.regions = Region(regions)
+        # сюда дописываем данные по референсам, они под днем 0
+        self.regions = Region(pd.concat([regions, self.reference.reference_df.drop(['id'], axis=1)], ignore_index=True).sort_values(by=['days']))
 
 
 class Reference:
@@ -100,7 +88,7 @@ class Reference:
                 json_file = json.load(f)
 
                 # удаляем ненужные колонки
-                t = pd.DataFrame(data=json_file).drop(['name', 'description', 'framestart', 'len'], axis=1)
+                t = pd.DataFrame(data=json_file).drop(['name', 'description'], axis=1)
 
                 # делим объединённые колонки на отдельные
                 t = pd.concat([t.drop(['features'], axis=1), t.features.apply(pd.Series)], axis=1)
@@ -109,32 +97,24 @@ class Reference:
                 t.location = t.location.apply(pd.Series)
 
                 # вырезаем последовательность
-                t['region_seq'] = t.apply(lambda x: x.seq[x.location[0]:x.location[1]].rstrip().lstrip(), axis=1)
-                
+                t['region_seq'] = t.apply(lambda x: x.seq[x.location[0]:x.location[1]].strip(), axis=1)
 
                 # переименовываем для единообразия
                 t.rename(mapper={'region_seq': 'sequence', 'seq': 'full_reference'}, axis=1, inplace=True)
                 t['translated'] = t.sequence.apply(lambda x: Seq(x, Gapped(IUPAC.unambiguous_dna)).ungap().translate())
-                
-                # удаляем лишнее
-                t = t.drop(['location', 'full_reference', 'type'], axis=1)
-                
-                # добавляем колонки, чтобы соединить с датасетом гаплотипов
-                num_row = t.shape[0]
-                
-                frequency = [100.0 for i in range(num_row)]
-                days = [0 for i in range(num_row)]
-                nreads = [None for i in range(num_row)]
-                
-                t['frequency'] = frequency
-                t['days'] = days
-                t['nreads'] = nreads                
-
                 self.reference_df = pd.concat([self.reference_df, t], ignore_index=True)
 
-        '''# если это делалось для одного пациента, то сразу отдаём объект с его регионами
+        # оставляем только нужные колонки
+        self.reference_df = self.reference_df[['sequence', 'name', 'translated', 'id']]
+
+        # остальное дописываем вручную (это будет использоваться в дереве)
+        self.reference_df['days'] = 0
+        self.reference_df['frequency'] = 100
+        self.reference_df['nreads'] = 1
+
+        # если это делалось для одного пациента, то сразу отдаём объект с его регионами
         if patient:
-            self.region = Region(self.reference_df)'''
+            self.region = Region(self.reference_df)
 
     def get_patient(self, patient, region=None):
         """
@@ -146,12 +126,11 @@ class Reference:
         Returns:
             pd.DataFrame: отфильтрованные данные
         """
-        
         if region:
-            return self.reference_df.drop(['id'], axis=1).loc[(self.reference_df.id == f'reference_{patient}') &
+            return self.reference_df.loc[(self.reference_df.id == f'reference_{patient}') &
                                          (self.reference_df.name == region)]
         else:
-            return self.reference_df.drop(['id'], axis=1).loc[self.reference_df.id == f'reference_{patient}']
+            return self.reference_df.loc[self.reference_df.id == f'reference_{patient}']
 
 
 class Region:

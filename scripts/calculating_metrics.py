@@ -6,7 +6,7 @@ import pandas as pd
 
 
 # Dealing with hydrophobicity.csv
-hydro_df = pd.read_csv('utils/hydrophobicity.csv', index_col = None)
+hydro_df = pd.read_csv('scripts/hydrophobicity.csv', index_col = None)
 hydro_fact = dict(zip(list(hydro_df['aa']),list(hydro_df['Kyte-Doolittle'])))
 hydro_fact['X'] = 0 # !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!11  added
 hydro_fact['*'] = 0
