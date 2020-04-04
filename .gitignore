@@ -1,7 +1,0 @@
-data
-saved_sklearn_models
-scripts\__pycache__\*
-
-*.pyc
-*.pyc
-scripts/__pycache__/classificator_k_mer.cpython-37.pyc
