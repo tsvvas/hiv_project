@@ -51,9 +51,6 @@ def making_aa_k_mers(k):
     subseq_iter = itertools.product(amino_string, repeat=k)
     aa_k_mer_list = list(subseq_iter)
 
-    # deleting to free space
-    del subseq_iter
-
     # one "for" to deal with tuples which we get from itertools stuff
     for i in range(len(aa_k_mer_list)):
 
@@ -130,8 +127,7 @@ def finding_freq_single_protein(seq, aa_k_mer_list):
         return list(vector_freq_scaled)
         
 
-
-def main_analyzes(path, k_mer_num, trembl_usage_human=False):
+def main_analysis(path, k_mer_num, trembl_usage_human=False):
     """
     Construct "organism_name".csv with k-mer analyzes. Will store analyzed file in 'data/csv_data' directory.
     !!!Warning!!! can take much time, so be prepared and sure that all parameters are good
@@ -251,4 +247,4 @@ def main(folder, k):
 
     # using main_analyzes for all files
     for file in files_path:
-        main_analyzes(file, k)
+        main_analysis(file, k)

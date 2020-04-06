@@ -72,7 +72,8 @@ class Quantitative:
 
             # finding frequency metrics
             tmp = data_prep_k_mer.finding_freq_single_protein(prot, aa_k_mer_list)
-
+            
+            # in case of any trouble
             try:
                 for x in tmp:
                     metric_path[-1].append(float(x[0]))
@@ -81,7 +82,7 @@ class Quantitative:
 
         return metric_path
 
-    def quantitative_analyzes(self, region):
+    def quantitative_analysis(self, region, k):
         """
         Function to analyze all paths in created tree from 'tree_building.py' for each patient you chosed.
         Here days for each patient are stored in patient's 'X' and probability for each path to be human's 
@@ -96,15 +97,14 @@ class Quantitative:
             self.patients_evolution = {}
 
             # making k-mers
-            aa_k_mer_list = data_prep_k_mer.making_aa_k_mers(2)
+            aa_k_mer_list = data_prep_k_mer.making_aa_k_mers(k)
 
             # for-loop for patients
             for pat_id in self.patients_list:
 
                 # We will not use patient#3 and patient#10 because their HIV wasn't cool at all
                 # joke, additional info can be found here (https://elifesciences.org/articles/11282)
-
-                if pat_id != 'p3' and pat_id != 'p10':
+                if pat_id != 'p4' and pat_id != 'p7':
 
                     # creating dataset for patient
                     pat_class = patient.Patient(pat_id)
@@ -159,7 +159,7 @@ class Quantitative:
         else:
             print('There is no data for this region. Please choose other one or consider haplotype calling for this region')
            
-    def plot_paths(self, save=False):
+    def plot_paths(self, save=False, name=''):
         """
         Function to plot results from quantitative_analyzes.
         Note: this function is working only with all patients from HIVEVO beside p3 and 
@@ -170,12 +170,6 @@ class Quantitative:
             be saved in folder you are working.
         """
         
-        #TODO make it works for n - num of patients.
-        
-        if save:
-            print('Write name for the picture: ')
-            name = input()
-
         # Making font BIGGER!
         plt.rcParams['font.size'] = 20
 
@@ -218,6 +212,9 @@ class Quantitative:
         
         # saving or showing
         if save:
-            plt.savefig(name)
+            if name != '':
+                plt.savefig(name)
+            else:
+                print('Consider changing "name" argument of the function')
         else: 
             plt.show()
