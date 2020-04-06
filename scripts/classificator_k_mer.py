@@ -56,14 +56,6 @@ def preprocessing_data(path):
         else:
             labels.append(0)
     
-    # fixing feature_matrix
-    if type(feature_matrix[0][0]) == str:
-        n, m = feature_matrix.shape
-        for i in range(n):
-            for j in range(m):
-                tmp = float(feature_matrix[i][j].replace('[','').replace(']',''))
-                feature_matrix[i][j] = tmp
-    
     return feature_matrix, labels
 
 

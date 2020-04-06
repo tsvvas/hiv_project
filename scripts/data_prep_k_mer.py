@@ -194,35 +194,34 @@ def main_analysis(path, k_mer_num, trembl_usage_human=False):
             # Writing file for every part of data, we will combine them later
             writing_path = 'data/csv_data/' + organism_name + '_' + str(j) + '.csv'
             proteins_data.to_csv(writing_path)
+    else:
+        
+        # Rewriting index
+        index = 0
 
-        return
+        # working with NOT human proteomes
+        for i in tqdm.tqdm(range(len(prot_records))):
 
-    # Rewriting index
-    index = 0
+            # reading protein to calculate metrics on it
+            seq_record = prot_records[i]
+            prot_name, seq = seqio_data(seq_record)
 
-    # working with NOT human proteomes
-    for i in tqdm.tqdm(range(len(prot_records))):
+            # calculating metrics (frequencies)
+            freq_vector = finding_freq_single_protein(seq, aa_k_mer_list)
 
-        # reading protein to calculate metrics on it
-        seq_record = prot_records[i]
-        prot_name, seq = seqio_data(seq_record)
+            # making row for pandas
+            adding_row = []
+            adding_row.append(organism_name)
+            adding_row.append(prot_name)
+            adding_row += freq_vector
 
-        # calculating metrics (frequencies)
-        freq_vector = finding_freq_single_protein(seq, aa_k_mer_list)
+            # adding row to the DataFrame
+            proteins_data.loc[index] = adding_row
+            index += 1
 
-        # making row for pandas
-        adding_row = []
-        adding_row.append(organism_name)
-        adding_row.append(prot_name)
-        adding_row += freq_vector
-
-        # adding row to the DataFrame
-        proteins_data.loc[index] = adding_row
-        index += 1
-
-    # Writing file
-    writing_path = 'data/csv_data/' + organism_name + '.csv'
-    proteins_data.to_csv(writing_path)
+        # Writing file
+        writing_path = 'data/csv_data/' + organism_name + '.csv'
+        proteins_data.to_csv(writing_path)
 
 
 def main(folder, k):

@@ -74,11 +74,7 @@ class Quantitative:
             tmp = data_prep_k_mer.finding_freq_single_protein(prot, aa_k_mer_list)
             
             # in case of any trouble
-            try:
-                for x in tmp:
-                    metric_path[-1].append(float(x[0]))
-            except:
-                metric_path[-1] = tmp
+            metric_path[-1] = tmp
 
         return metric_path
 
