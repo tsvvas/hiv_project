@@ -50,10 +50,6 @@ def calculate_metric(seq):
     prot = Seq(seq, Gapped(IUPAC.unambiguous_dna)).ungap().translate()
 
     # calculating metrics
-    res = 0
-    for aa in prot:
-
-        # adding to res hydrophobicity of exact amino acid acording to hydro_fact
-        res += hydro_fact[aa]
+    res = sum([hydro_fact[x] for x in prot])
 
     return res

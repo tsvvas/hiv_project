@@ -23,7 +23,10 @@ def preprocessing_data(path):
 
     # changing paths
     for i in range(len(csv_files)):
-        csv_files[i] = f'{path}/{csv_files[i]}'
+        if path[-1] != '/':
+            csv_files[i] = f'{path}/{csv_files[i]}'
+        else:
+            csv_files[i] = f'{path}{csv_files[i]}'
 
     # making dataframe
     proteins_data = pd.DataFrame()
@@ -105,5 +108,3 @@ def making_classificator(feature_matrix, labels, name, n_estimators=350, max_dep
 
     # saving model
     dump(forest, f'saved_sklearn_models/{name}.joblib')
-
-    return

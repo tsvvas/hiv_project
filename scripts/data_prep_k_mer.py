@@ -65,6 +65,7 @@ def making_aa_k_mers(k):
 
     return aa_k_mer_list
 
+
 def seqio_data(seq_record):
     """
     Working with SeqRecord class
@@ -130,13 +131,14 @@ def finding_freq_single_protein(seq, aa_k_mer_list):
         
 
 
-def main_analyzes(path, k_mer_num):
+def main_analyzes(path, k_mer_num, trembl_usage_human=False):
     """
     Construct "organism_name".csv with k-mer analyzes. Will store analyzed file in 'data/csv_data' directory.
     !!!Warning!!! can take much time, so be prepared and sure that all parameters are good
     Args:
         path: str, path to file in fasta format with represantative proteome used in analyzes
         k_mer_num: int, k-mer length
+        trembl_usage: bool, default is False. Do you use represantative proteome for human with TrEMBL proteins or not?
     """
     # creating dir to store CSVs produced by function
     if not os.path.isdir('data/csv_data'):
@@ -151,6 +153,11 @@ def main_analyzes(path, k_mer_num):
 
     # reading
     prot_records, organism_name = work_with_files.read_fasta(path)
+    
+    if trembl_usage_human == False:
+        num_iter = 20
+    else:
+        num_iter = 100
 
     # dealing with human, because it needs to be analyzed separately
     if organism_name == 'human_proteome':
@@ -159,12 +166,12 @@ def main_analyzes(path, k_mer_num):
         human_list = []
 
         # appending all human proteins to list and splitting it into 100 parts
-        prot_records_split = np.array_split(prot_records, 20)
+        prot_records_split = np.array_split(prot_records, num_iter)
         for prot_data_part in prot_records_split:
             human_list.append(prot_data_part)
 
         # We will split analyze of human, because human proteom is too big to handle
-        for j in tqdm.tqdm_notebook(range(0, 20)):
+        for j in tqdm.tqdm(range(0, num_iter)):
 
             # Creating pd.df
             proteins_data = pd.DataFrame(columns=table_columns)
@@ -198,7 +205,7 @@ def main_analyzes(path, k_mer_num):
     index = 0
 
     # working with NOT human proteomes
-    for i in tqdm.tqdm_notebook(range(len(prot_records))):
+    for i in tqdm.tqdm(range(len(prot_records))):
 
         # reading protein to calculate metrics on it
         seq_record = prot_records[i]
@@ -221,8 +228,6 @@ def main_analyzes(path, k_mer_num):
     writing_path = 'data/csv_data/' + organism_name + '.csv'
     proteins_data.to_csv(writing_path)
 
-    return
-
 
 def main(folder, k):
     """
@@ -234,8 +239,7 @@ def main(folder, k):
     """
     # helpful words
     if not os.path.isdir(folder):
-        raise FileExistsError('Have you download all needed represantative proteomes (or added yours maybe) and '
-                              'stored them in "data/proteomes" folder?')
+        raise FileExistsError('Have you download all needed represantative proteomes (or added yours maybe) and stored them in "data/proteomes" folder?')
 
     # making list with file names in 'proteomes' dir
     data_files = [f for f in os.listdir(folder) if os.path.isfile(os.path.join(folder, f))]
@@ -248,6 +252,3 @@ def main(folder, k):
     # using main_analyzes for all files
     for file in files_path:
         main_analyzes(file, k)
-
-if __name__ == 'main':
-    main(2)

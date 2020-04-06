@@ -17,6 +17,7 @@ import patient
 import tree_building
 import data_prep_k_mer
 
+
 class Quantitative:
     """
     Class for making quantitative analysis
@@ -72,7 +73,7 @@ class Quantitative:
             # finding frequency metrics
             tmp = data_prep_k_mer.finding_freq_single_protein(prot, aa_k_mer_list)
 
-            try:# KOCTblJLb (our vector from finding_freq_single_protein is not feeling well (my bad :))
+            try:
                 for x in tmp:
                     metric_path[-1].append(float(x[0]))
             except:
@@ -158,7 +159,6 @@ class Quantitative:
         else:
             print('There is no data for this region. Please choose other one or consider haplotype calling for this region')
            
-
     def plot_paths(self, save=False):
         """
         Function to plot results from quantitative_analyzes.
