@@ -116,16 +116,10 @@ def finding_freq_single_protein(seq, aa_k_mer_list):
     scaler = preprocessing.StandardScaler()
     vector_freq_scaled = scaler.fit_transform(vector_freq)
     
-    # KOCTblJLb (our vector from finding_freq_bla_bla is not feeling well (my bad :))
-    try:
-        tmp = []
-        for x in vector_freq_scaled:
-            tmp.append(float(x[0]))
-
-        return tmp
-    except:
-        return list(vector_freq_scaled)
-        
+    # Getting return converting dimensions
+    result = vector_freq_scaled.reshape(1, -1)[0].tolist()
+    
+    return result
 
 def main_analysis(path, k_mer_num, trembl_usage_human=False):
     """
