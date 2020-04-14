@@ -1,7 +1,5 @@
 import numpy as np
 from sklearn import preprocessing
-import warnings
-warnings.filterwarnings("ignore")
 from Bio import SeqIO
 import pandas as pd
 import tqdm
