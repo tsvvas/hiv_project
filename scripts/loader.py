@@ -5,13 +5,6 @@ import os
 import pandas as pd
 
 
-import shutil
-import urllib3
-import certifi
-import os
-import pandas as pd
-
-
 class Loader:
     """ Класс для загрузки данных """
 
