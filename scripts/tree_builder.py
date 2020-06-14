@@ -22,7 +22,27 @@ if 'trees' not in next(os.walk('./'))[1]:
 
 class Phylo_tree:
     def __init__(self, patient, region, data='DNA', alignment=None):
-        fmt='phylip-relaxed'
+        '''
+        Class constructor
+        
+        Parameters
+        ----------
+        patient : str
+            Patient name e.g. "p1".
+        
+        region : str, 
+            Region name e.g. "V3".
+        
+        data : {"DNA", "protein"}, default: "DNA"
+            Type of required data.
+        
+        alignment : str, optional
+            Name of file this aligned haplotype sequenses.
+            Note: sequenses names must be in format 
+                "patient{patient name}_region{region name}_day{day}_id{id}"
+                and all id must be unique!
+        '''
+        fmt = 'phylip-relaxed'
         self.plot_properties = -1, -1
         self.dir = './trees/'
         self.file_name = f'patient{patient}_region{region}_{data}'
@@ -33,7 +53,6 @@ class Phylo_tree:
             ref = patients_data.Reference('data/references/').get_patient(patient)
             pat = pd.concat([pat, ref], ignore_index=True).sort_values(by=['days'])
             pat = pat[pat.name == region]
-            records = []
             if data == 'DNA':
                 alphabet = IUPAC.unambiguous_dna
                 column = 'sequence'
@@ -43,6 +62,7 @@ class Phylo_tree:
             else:
                 raise ValueError('Incorrect format! Format must be "DNA" or "protein".')
 
+            records = []
             for i in pat.index:
                 haplo = pat.loc[i]
                 name = f'patient{patient}_region{region}_day{haplo.days}_id{i}'
@@ -80,7 +100,21 @@ class Phylo_tree:
                     SeqIO.convert(align, 'fasta', f'{self.dir}{self.align_file_name}', fmt)
 
     class Haplo():
+        '''
+        Haplotype storing class
+        '''
         def __init__(self, name, tree):
+            '''
+            Haplotype storing class constructor
+            
+            Parameters
+            ----------
+            name : str
+                SeqRecord.id
+
+            tree : Bio.Phylo.Newick.Tree 
+                Phylogenetic tree
+            '''
             self.name = name
             self.patient = re.search(r'patient(.*?\d+)', name).groups()[0]
             self.haplo_id = int(re.search(r'id(.*?\d+)', name).groups()[0])
@@ -91,7 +125,54 @@ class Phylo_tree:
             self.x = 0                                                  # координата
 
     def build_tree(self, p, tree_type='ML', quiet=False):
+        '''
+        Tree building function.
+        
+        Построение происходит по следующему принципу:
+        - Строим вспомогательное ML или MP дерево с помощью сторонних тулов.
+          Листья этого дерева - гаплотипы, которые должны стать вершинами нового
+          дерева.
+        - Составляем список из листьев вспомогательного дерева, представив их как
+          объекты специального класса Haplo
+        - Вытаскиваем из списка гаплотипы начиная с самого старшего, для каждого 
+          извлеченного гаплотипа среди оставшихся в списке ищем наиболее вероятного
+          родителя, минимизирующего специальную метрику.
+          
+        Метрика для поиска родителя.
+        У каждого гаплотипа есть предок, присутствовавший в предыдущий день
+        секвенирования. Но вероятность обнаружить гаплотип при однократном 
+        секвенировании равна р. То есть вероятность найти предка в предыдущий день -
+        р, двумя днями ранее - (1-р)р и т.д., то есть имеет геометрическое 
+        распределение. Но из длины пути по вспомогательному дереву нам известно
+        "эволюционное расстояние" между всемии гаплотипами. Таким образом вероятность 
+        одному гаплотипу быть предком другого в данной модели пропорциональна отношению
+        вероятности найти предка через данное количество заборов крови к "эволюционному
+        расстоянию" между данными гаплотипами.
+          
+        Parameters
+        ----------
+        p : float
+            Probability of detecting an existing haplotype during one blood sampling.
+        
+        tree_type : {"ML", "MP"}, default: "ML"
+            Type of phylogenetic tree: maximum likehood or maximum parsimony.
+            
+        quiet : optional, default: False
+            If True, additional information about tree building is not displayed.
+        '''
+        
+        # Строим таблицу по всем гаплотипам, из нее можно будет дергать пути
+        self.DF = pd.DataFrame()
+        for record in SeqIO.parse(f'{self.dir}{self.align_file_name}', 'phylip-relaxed'):
+            rec_name = record.id
+            rec_id = int(re.search(r'id(.*?\d+)', rec_name).groups()[0])
+            rec_day = int(re.search(r'day(.*?\d+)', rec_name).groups()[0])
+            rec_dict = {rec_id : {'day':rec_day, 'seq':record.seq}}
+            self.DF = self.DF.append(pd.DataFrame.from_dict(rec_dict, orient='index'))
+            
         self.prob = p
+        
+        # Проверяем наличие построенного ML/MP дерева. Если такогого нет - строим
         if f'{self.file_name}_{tree_type}tree.newick' not in next(os.walk(self.dir))[2]:
             if tree_type == 'ML':
                 dt = 'nt' if self.data_type == 'DNA' else 'aa'
@@ -120,28 +201,56 @@ class Phylo_tree:
         else:
             self.tree = Phylo.read(f'{self.dir}{self.file_name}_{tree_type}tree.newick', 'newick')
             
-        self.G = nx.DiGraph()
-        nodes = []
+            
+        self.G = nx.DiGraph()    # граф для нашего дерева
+        nodes = []               # список будущих вершин дерева
+        
+        # Добавляем в nodes все листья референсного ML/MP дерева в виде объектов класса Haplo
         for clade in self.tree.get_terminals():
             nodes.append(self.Haplo(str(clade), self.tree))
-        nodes.sort(key=lambda node: node.day)
-        self.days = sorted(set(map(lambda x: x.day, nodes)))
+        nodes.sort(key=lambda node: node.day)                  # сортируем по дню
+        self.days = sorted(set(map(lambda x: x.day, nodes)))   # список дней
         while len(nodes) > 1:
-            node = nodes.pop()
-            parents = {}
+            node = nodes.pop()      # изымаем из списка самый старший гаплотип 
+            parents = {}            # его потенциальные родители
+            
+            # Среди оставшихся гаплотипов:
             for nd in nodes:
-                if nd.day != node.day:
-                    path = set(node.path) ^ set(nd.path)
-                    prob = p * (1 - p) ** (self.days.index(node.day) - self.days.index(nd.day) - 1)
-                    path_len = sum(map(lambda item: item.branch_length, path))
+                if nd.day != node.day:                    # если предшествует рассматриваемому гаплотипу по времени
+                    path = set(node.path) ^ set(nd.path)  # путь по вспомогательному дереву
+                    prob = p * (1 - p) ** (self.days.index(node.day) - self.days.index(nd.day) - 1) # вероятность
+                    path_len = sum(map(lambda item: item.branch_length, path)) # длина пути по вспомогательному дереву
                     if path_len:
-                        parents[nd] = prob / path_len
+                        parents[nd] = prob / path_len     # сопоставляем значение метрики
                     else:
                         parents[nd] = np.inf
-            par, weight = max(parents.items(), key=lambda item: item[1])
-            self.G.add_edge(par, node, weight=weight)
+            par, weight = max(parents.items(), key=lambda item: item[1])  # выбираем наиболее вероятного предка
+            self.G.add_edge(par, node, weight=weight)                     # добавляем ребро в граф
 
-    def plot(self, fig_size, days_scaling=True, virt_nodes=True, topo=0, iters=1000):
+    def plot(self, fig_size=(10,7), days_scaling=True, virt_nodes=True, iters=1000, topo=0):
+        '''
+        Tree plotting function
+        
+        Parameters
+        ----------
+        fig_size : (int, int), optional, default: (10,7)
+            Image size.
+        
+        days_scaling : bool, optional, default: True
+            If False distance between levels becomes proportional to the 
+            difference in days, else levels are equidistant.
+            
+        virt_nodes : bool, optional, default: True
+            If True, when connecting vertices at different levels, arrows 
+            are drawn between every two levels, else it is drowing only one
+            arrow for every two connected nodes.
+            
+        iters : int, optional, default: 1000
+            Number of iterations for constructing an optimally compact tree.
+            
+        topo : int, optional, default: 0
+            Tree configuration number. Used for plot fine tuning.
+        '''
                 
         def branch_shufle(seed):
             np.random.seed(seed)
@@ -285,9 +394,32 @@ class Phylo_tree:
                      fontsize=size, horizontalalignment='center')
         plt.show()
         
-    def get_paths(self):
+    def paths(self):
+        '''
+        Function obtaining all the paths in the tree from the 
+        first to the last day. 
+        
+        Returns
+        -------
+        list of haplo_id lists.
+        '''
         ref = self.haplos_by_day[self.days[0]][0]
         paths = []
         for term in self.haplos_by_day[self.days[-1]]:
-            paths.append([haplo.name for haplo in nx.shortest_path(self.G, ref, term)])
+            paths.append([haplo.haplo_id for haplo in nx.shortest_path(self.G, ref, term)])
         return paths
+    
+    def get_path(self, path):
+        '''
+        Function returning a DataFrame of evolutionary path.
+        
+        Parameters
+        ----------
+        path : list of int
+            List of path's haplo_id.
+        
+        Returns
+        -------
+        pandas.DataFrame.
+        '''
+        return self.DF.loc[path]
